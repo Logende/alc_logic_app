@@ -3,10 +3,9 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fl_heatmap/fl_heatmap.dart';
 
 import '../model/dice.dart';
-import '../heatmap/heatmap.dart';
-import '../heatmap/heatmap_data.dart';
 
 class ScreenAll extends ConsumerStatefulWidget {
   const ScreenAll({super.key, required this.title});

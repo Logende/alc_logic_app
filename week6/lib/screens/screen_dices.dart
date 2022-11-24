@@ -7,20 +7,19 @@ import 'package:week6/widgets/dice.dart';
 import 'package:week6/widgets/die.dart';
 import 'package:week6/widgets/info.dart';
 import 'package:week6/widgets/info_throw_number.dart';
+import 'package:week6/widgets/navigation_bar.dart';
 
+import '../main.dart';
 import '../model/dice.dart';
 
 class ScreenDices extends ConsumerStatefulWidget {
-   ScreenDices({super.key, required this.ref,
-    required this.title, required this.modelProvider});
+   ScreenDices({super.key, required this.title});
 
+
+   static String get routeName => 'dices';
+   static String get routeLocation => '/';
 
   final String title;
-  final StateProvider<Dice> modelProvider;
-
-
-
-  final WidgetRef ref;
 
 
   @override
@@ -39,14 +38,14 @@ class ScreenDices extends ConsumerStatefulWidget {
 
    void _throwDice() {
      setState(() {
-       Dice dice = ref.watch(widget.modelProvider);
+       Dice dice = ref.watch(modelProvider);
        dice.throwDice();
      });
    }
 
    void _manyThrows() {
      setState(() {
-       Dice dice = ref.watch(widget.modelProvider);
+       Dice dice = ref.watch(modelProvider);
        for (var i = 0; i < 1000; i++) {
          dice.throwDice();
        }
@@ -55,7 +54,7 @@ class ScreenDices extends ConsumerStatefulWidget {
 
    void setEqualDistr(bool value) {
      setState(() {
-       Dice dice = ref.watch(widget.modelProvider);
+       Dice dice = ref.watch(modelProvider);
        dice.equalDistr = value;
      });
    }
@@ -74,9 +73,9 @@ class ScreenDices extends ConsumerStatefulWidget {
 
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            DieWidget(ref: ref, modelProvider: widget.modelProvider),
+            DieWidget(ref: ref, modelProvider: modelProvider),
 
-            InfoWidget(ref: ref, modelProvider: widget.modelProvider),
+            InfoWidget(ref: ref, modelProvider: modelProvider),
             /*CupertinoSwitch(
               value: ref.watch(getEqualDistrProvider()),
               onChanged: (value) {
@@ -86,6 +85,8 @@ class ScreenDices extends ConsumerStatefulWidget {
 
             TextButton(
                 onPressed: _manyThrows, child: const Text('1000 Throws')),
+
+            NavigationBarWidget(ref: ref, modelProvider: modelProvider),
 
 
           ],

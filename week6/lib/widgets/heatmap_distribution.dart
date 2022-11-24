@@ -1,9 +1,9 @@
 import 'dart:math';
+import 'package:fl_heatmap/fl_heatmap.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:week6/heatmap/fl_heatmap.dart';
 import 'package:week6/widgets/dice.dart';
 
 import '../model/dice.dart';
