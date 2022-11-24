@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:week6/model/dice.dart';
 import 'package:week6/screens/screen_all.dart';
+import 'package:week6/screens/screen_detailed_combination.dart';
 import 'package:week6/screens/screen_dices.dart';
 import 'package:week6/screens/screen_settings.dart';
 import 'package:week6/screens/screen_stats.dart';
@@ -14,7 +15,8 @@ import 'package:week6/screens/screen_stats.dart';
 enum ScreenType {
   screenDices,
   screenStats,
-  screenSettings
+  screenSettings,
+  screenDetailedCombination,
 }
 
 class NavigationBarWidget extends ConsumerStatefulWidget {
@@ -31,7 +33,7 @@ class NavigationBarWidget extends ConsumerStatefulWidget {
 class _NavigationBarState extends ConsumerState<NavigationBarWidget> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     Text(
       'Index 0: Dices',
@@ -43,6 +45,10 @@ class _NavigationBarState extends ConsumerState<NavigationBarWidget> {
     ),
     Text(
       'Index 2: Settings',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 3: CombDet',
       style: optionStyle,
     ),
   ];
@@ -64,6 +70,10 @@ class _NavigationBarState extends ConsumerState<NavigationBarWidget> {
         case ScreenType.screenSettings:
           context.go(ScreenSettings.routeLocation);
           break;
+
+        case ScreenType.screenDetailedCombination:
+          context.go(ScreenDetailedCombination.routeLocation);
+          break;
       }
 
       _selectedIndex = index;
@@ -73,6 +83,7 @@ class _NavigationBarState extends ConsumerState<NavigationBarWidget> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -85,6 +96,10 @@ class _NavigationBarState extends ConsumerState<NavigationBarWidget> {
           BottomNavigationBarItem(
             icon: Icon(Icons.school),
             label: 'Settings',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.holiday_village),
+            label: 'CombDet',
           ),
         ],
         currentIndex: _selectedIndex,
