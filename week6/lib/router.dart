@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:week6/screens/screen_detailed_combination.dart';
+import 'package:week6/screens/screen_detailed_sum.dart';
 import 'package:week6/screens/screen_dices.dart';
 import 'package:week6/screens/screen_settings.dart';
 import 'package:week6/screens/screen_stats.dart';
@@ -43,6 +44,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         name: ScreenDetailedCombination.routeName,
         builder: (context, state) {
           return const ScreenDetailedCombination();
+        },
+      ),
+      GoRoute(
+        path: ScreenDetailedSum.routeLocation,
+        name: ScreenDetailedSum.routeName,
+        builder: (context, state) {
+          return const ScreenDetailedSum();
         },
       ),
     ],

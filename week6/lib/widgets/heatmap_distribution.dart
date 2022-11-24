@@ -4,6 +4,8 @@ import 'package:fl_heatmap/fl_heatmap.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:week6/screens/screen_detailed_sum.dart';
 
 import '../model/dice.dart';
 
@@ -39,6 +41,20 @@ class HeatmapDistributionState extends ConsumerState<HeatmapDistributionWidget> 
             // Text("${_dice.sumStatistics.toString()}", textScaleFactor: 1.4),
             const SizedBox(height: 8),
             Heatmap(
+                onItemSelectedListener: (HeatmapItem? selectedItem) {
+                  setState(() {
+                    if (selectedItem != null) {
+                      int sum = int.parse(selectedItem.xAxisLabel!.trim());
+                      dice.die[0] = sum ~/ 2;
+                      dice.die[1] = (sum ~/ 2) + sum % 2;
+                      debugPrint("dice 1 ${dice.die[0]} dice 2 ${dice.die[1]}");
+                      context.go(ScreenDetailedSum.routeLocation);
+                    }
+                  });
+                  debugPrint(
+                      'Item ${selectedItem?.yAxisLabel}/${selectedItem?.xAxisLabel} with value ${selectedItem?.value} selected');
+
+                },
                 heatmapData: _generateHeatmapData(dice))
           ],
         ),

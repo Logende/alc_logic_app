@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_heatmap/fl_heatmap.dart';
+import 'package:go_router/go_router.dart';
+import 'package:week6/screens/screen_detailed_combination.dart';
 
 import '../model/dice.dart';
 
@@ -42,6 +44,16 @@ class HeatmapIndividualThrowsState extends ConsumerState<HeatmapIndividualThrows
             width: 150,
             child: Heatmap(
                 onItemSelectedListener: (HeatmapItem? selectedItem) {
+                  setState(() {
+                    if (selectedItem != null) {
+                      int d1 = int.parse(selectedItem.xAxisLabel!.trim());
+                      int d2 = int.parse(selectedItem.yAxisLabel!.trim());
+                      dice.die[0] = d1;
+                      dice.die[1] = d2;
+                      debugPrint("dice 1 ${dice.die[0]} dice 2 ${dice.die[1]}");
+                      context.go(ScreenDetailedCombination.routeLocation);
+                    }
+                  });
                   debugPrint(
                       'Item ${selectedItem?.yAxisLabel}/${selectedItem?.xAxisLabel} with value ${selectedItem?.value} selected');
 

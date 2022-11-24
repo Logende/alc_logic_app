@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:week6/model/dice.dart';
-import 'package:week6/screens/screen_all.dart';
-import 'package:week6/screens/screen_detailed_combination.dart';
 import 'package:week6/screens/screen_dices.dart';
 import 'package:week6/screens/screen_settings.dart';
 import 'package:week6/screens/screen_stats.dart';
@@ -16,7 +14,6 @@ enum ScreenType {
   screenDices,
   screenStats,
   screenSettings,
-  screenDetailedCombination,
 }
 
 class NavigationBarWidget extends ConsumerStatefulWidget {
@@ -47,10 +44,6 @@ class _NavigationBarState extends ConsumerState<NavigationBarWidget> {
       'Index 2: Settings',
       style: optionStyle,
     ),
-    Text(
-      'Index 3: CombDet',
-      style: optionStyle,
-    ),
   ];
 
   void _onItemTapped(int index) {
@@ -70,10 +63,6 @@ class _NavigationBarState extends ConsumerState<NavigationBarWidget> {
         case ScreenType.screenSettings:
           context.go(ScreenSettings.routeLocation);
           break;
-
-        case ScreenType.screenDetailedCombination:
-          context.go(ScreenDetailedCombination.routeLocation);
-          break;
       }
 
       _selectedIndex = index;
@@ -83,7 +72,6 @@ class _NavigationBarState extends ConsumerState<NavigationBarWidget> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -96,10 +84,6 @@ class _NavigationBarState extends ConsumerState<NavigationBarWidget> {
           BottomNavigationBarItem(
             icon: Icon(Icons.school),
             label: 'Settings',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.holiday_village),
-            label: 'CombDet',
           ),
         ],
         currentIndex: _selectedIndex,

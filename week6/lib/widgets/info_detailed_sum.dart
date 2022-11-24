@@ -6,9 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../model/dice.dart';
 
-class InfoDetailedCombinationWidget extends ConsumerStatefulWidget {
+class InfoDetailedSumWidget extends ConsumerStatefulWidget {
 
-  const InfoDetailedCombinationWidget({super.key, required this.ref,
+  const InfoDetailedSumWidget({super.key, required this.ref,
     required this.modelProvider});
 
 
@@ -16,12 +16,12 @@ class InfoDetailedCombinationWidget extends ConsumerStatefulWidget {
   final WidgetRef ref;
 
   @override
-  ConsumerState<InfoDetailedCombinationWidget> createState() => InfoDetailedCombinationWidgetState();
+  ConsumerState<InfoDetailedSumWidget> createState() => InfoDetailedSumWidgetState();
   
 }
 
 
-class InfoDetailedCombinationWidgetState extends ConsumerState<InfoDetailedCombinationWidget> {
+class InfoDetailedSumWidgetState extends ConsumerState<InfoDetailedSumWidget> {
 
   @override
   Widget build(BuildContext context) {
@@ -30,20 +30,20 @@ class InfoDetailedCombinationWidgetState extends ConsumerState<InfoDetailedCombi
     int d1 = dice.die[0];
     int d2 = dice.die[1];
 
-    int combinationCount = dice.dieStatistics[d1-1][d2-1];
-    int maxCountAnyCombination = dice.dieStatistics.expand((element) => element).toList().reduce((max));
+    int sum = d1 + d2;
+    int sumCount = dice.sumStatistics[sum -2];
+    int maxCountAnySum = dice.sumStatistics.reduce(max);
     int numberOfThrows = dice.numberOfThrows;
-    int sumCurrentComb = d1 + d2;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
 
 
         Text(
-          'Combination: $d1 - $d2 (Sum: $sumCurrentComb)',
+          'Sum: $sum',
         ),
         Text(
-          'Combination occurrences: $combinationCount / $numberOfThrows (highest: $maxCountAnyCombination)',
+          'Sum occurrences: $sumCount / $numberOfThrows (highest: $maxCountAnySum)',
         ),
 
 
