@@ -1,26 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:week6/widgets/dice.dart';
 
 import '../model/dice.dart';
 
-class DieWidget extends StatefulWidget {
+class DieWidget extends ConsumerStatefulWidget {
 
 
-  const DieWidget({super.key, required this.dice});
+  const DieWidget({super.key, required this.ref,
+    required this.modelProvider});
 
 
-  final Dice dice;
+  final StateProvider<Dice> modelProvider;
+  final WidgetRef ref;
+
 
   @override
-  State<DieWidget> createState() => DieState(dice: dice);
+  ConsumerState<DieWidget> createState() => DieState();
   
 }
 
 
-class DieState extends State<DieWidget> {
-
-  DieState({required this.dice});
-  final Dice dice;
+class DieState extends ConsumerState<DieWidget> {
 
   @override
   Widget build(BuildContext context) {
@@ -29,30 +31,18 @@ class DieState extends State<DieWidget> {
         spacing: 10.0, // gap between adjacent chips
         runSpacing: 4.0, // gap between lines
         children: <Widget>[
-          Container(
-            margin: const EdgeInsets.all(10.0),
-            padding: const EdgeInsets.all(3.0),
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.black)
-            ),
-            child: Text(
-              '${dice.die[0]}',
-              style: Theme.of(context).textTheme.headline1,
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.all(10.0),
-            padding: const EdgeInsets.all(3.0),
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.black)
-            ),
-            child: Text(
-              '${dice.die[1]}',
-              style: Theme.of(context).textTheme.headline1,
-            ),
-          ),
+          DiceWidget(ref: ref, valueProvider: getValueProviderDice1()),
+          DiceWidget(ref: ref, valueProvider: getValueProviderDice2())
         ],
       );
+  }
+
+
+  StateProvider<int> getValueProviderDice1() {
+    return StateProvider((ref) => ref.watch(widget.modelProvider).die[0]);
+  }
+  StateProvider<int> getValueProviderDice2() {
+    return StateProvider((ref) => ref.watch(widget.modelProvider).die[1]);
   }
 
 }

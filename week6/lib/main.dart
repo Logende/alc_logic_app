@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:week6/screens/screen_all.dart';
 import 'package:week6/screens/screen_dices.dart';
+import 'package:week6/screens/screen_stats.dart';
 
 import 'heatmap/fl_heatmap.dart';
 import 'model/dice.dart';
@@ -28,7 +29,7 @@ class MyApp extends ConsumerWidget {
 
         primarySwatch: Colors.blue,
       ),
-      home: ScreenDices(title: 'Dice Home Page', ref: ref, modelProvider: modelProvider,),
+      home: ScreenStats(title: 'Dice Home Page', ref: ref, modelProvider: modelProvider,),
     );
   }
 }
