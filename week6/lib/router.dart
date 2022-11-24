@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:week6/screens/screen_dices.dart';
+import 'package:week6/screens/screen_settings.dart';
 import 'package:week6/screens/screen_stats.dart';
 
 import 'main.dart';
@@ -19,14 +20,21 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: ScreenDices.routeLocation,
         name: ScreenDices.routeName,
         builder: (context, state) {
-          return ScreenDices(title: 'Dices',);
+          return const ScreenDices();
         },
       ),
       GoRoute(
         path: ScreenStats.routeLocation,
         name: ScreenStats.routeName,
         builder: (context, state) {
-          return ScreenStats(title: 'Stats',);
+          return const ScreenStats();
+        },
+      ),
+      GoRoute(
+        path: ScreenSettings.routeLocation,
+        name: ScreenSettings.routeName,
+        builder: (context, state) {
+          return const ScreenSettings();
         },
       ),
     ],

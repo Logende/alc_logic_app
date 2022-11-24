@@ -4,7 +4,6 @@ import 'package:fl_heatmap/fl_heatmap.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:week6/widgets/dice.dart';
 
 import '../model/dice.dart';
 
@@ -61,7 +60,7 @@ class HeatmapDistributionState extends ConsumerState<HeatmapDistributionWidget> 
           for (int row = 0; row < 1; row++)
             for (int col = 0; col < columnCount; col++)
               HeatmapItem(
-                  value: dice.sumStatistics[col].toDouble() / highestValue.toDouble() * 6.0,
+                  value: dice.sumStatistics[col].toDouble() / highestValue.toDouble(),
                   unit: "unit",
                   xAxisLabel: columnsSimple[col],
                   yAxisLabel: ""),

@@ -1,25 +1,21 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:week6/widgets/dice.dart';
 import 'package:week6/widgets/die.dart';
 import 'package:week6/widgets/info.dart';
-import 'package:week6/widgets/info_throw_number.dart';
 import 'package:week6/widgets/navigation_bar.dart';
 
 import '../main.dart';
 import '../model/dice.dart';
 
 class ScreenDices extends ConsumerStatefulWidget {
-   ScreenDices({super.key, required this.title});
+   const ScreenDices({super.key});
 
 
    static String get routeName => 'dices';
    static String get routeLocation => '/';
 
-  final String title;
+  final String title = "Dices";
 
 
   @override

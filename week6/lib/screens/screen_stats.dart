@@ -10,12 +10,12 @@ import '../main.dart';
 import '../model/dice.dart';
 
 class ScreenStats extends ConsumerStatefulWidget {
-   ScreenStats({super.key, required this.title});
+   const ScreenStats({super.key});
 
    static String get routeName => 'stats';
    static String get routeLocation => '/stats';
 
-  final String title;
+  final String title = "Statistics";
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
