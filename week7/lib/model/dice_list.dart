@@ -39,23 +39,27 @@ class DiceList {
   }
 
   DiceList _throwDice(int throwCount) {
-    return _addDiceState(list.last.throwDice(throwCount));
+    return _addDiceState(currentDice().throwDice(throwCount));
   }
 
   DiceList _setEqualDistribution(bool equalDistr) {
-    if (equalDistr != list.last.equalDistr) {
-      return _addDiceState(list.last.setEqualDistribution(equalDistr));
+    if (equalDistr != currentDice().equalDistr) {
+      return _addDiceState(currentDice().setEqualDistribution(equalDistr));
     } else {
       return this;
     }
   }
 
   DiceList _resetStatistics() {
-    return _addDiceState(list.last.resetStatistics());
+    return _addDiceState(currentDice().resetStatistics());
   }
 
   DiceList _addDiceState(Dice newDice) {
-    list.add(newDice);
+    if (list.length > current + 1) {
+      list[current + 1] = newDice;
+    } else {
+      list.add(newDice);
+    }
     return _copyWith(list: list, current: current +1 , redoMax: 0);
   }
 
