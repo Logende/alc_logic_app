@@ -4,9 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:week6/model/dice.dart';
 import 'package:week6/providers.dart';
 import 'package:week6/screens/screen_dices.dart';
+import 'package:week6/screens/screen_movies.dart';
 import 'package:week6/screens/screen_settings.dart';
 import 'package:week6/screens/screen_stats.dart';
 
@@ -15,6 +15,7 @@ enum ActionType {
   screenDices,
   screenStats,
   screenSettings,
+  screenMovies,
   undo,
   redo
 }
@@ -47,11 +48,15 @@ class _NavigationBarState extends ConsumerState<NavigationBarWidget> {
       style: optionStyle,
     ),
     Text(
-      'Index 3: Undo',
+      'Index 3: Movies',
       style: optionStyle,
     ),
     Text(
-      'Index 4: Redo',
+      'Index 4: Undo',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 5: Redo',
       style: optionStyle,
     ),
   ];
@@ -75,6 +80,10 @@ class _NavigationBarState extends ConsumerState<NavigationBarWidget> {
           context.go(ScreenSettings.routeLocation);
           break;
 
+        case ActionType.screenMovies:
+          context.go(ScreenMovies.routeLocation);
+          break;
+
         case ActionType.undo:
           if (notifier.isUndoPossible()) {
             notifier.undo();
@@ -94,7 +103,6 @@ class _NavigationBarState extends ConsumerState<NavigationBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var notifier = ref.watch(modelProvider.notifier);
 
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
@@ -104,12 +112,16 @@ class _NavigationBarState extends ConsumerState<NavigationBarWidget> {
             label: 'Dices',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
+            icon: Icon(Icons.science),
             label: 'Stats',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
+            icon: Icon(Icons.settings),
             label: 'Settings',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.movie),
+            label: 'Movies',
           ),
 
           BottomNavigationBarItem(

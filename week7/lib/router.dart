@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:week6/screens/screen_detailed_combination.dart';
 import 'package:week6/screens/screen_detailed_sum.dart';
 import 'package:week6/screens/screen_dices.dart';
+import 'package:week6/screens/screen_movies.dart';
 import 'package:week6/screens/screen_settings.dart';
 import 'package:week6/screens/screen_stats.dart';
 
@@ -51,6 +52,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         name: ScreenDetailedSum.routeName,
         builder: (context, state) {
           return const ScreenDetailedSum();
+        },
+      ),
+      GoRoute(
+        path: ScreenMovies.routeLocation,
+        name: ScreenMovies.routeName,
+        builder: (context, state) {
+          return const ScreenMovies();
         },
       ),
     ],
