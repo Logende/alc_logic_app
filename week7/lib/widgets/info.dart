@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:week6/model/timer_model.dart';
 import 'package:week6/widgets/info_throw_number.dart';
 
 import '../model/dice.dart';
@@ -34,6 +35,7 @@ class InfoWidgetState extends ConsumerState<InfoWidget> {
         Text(
           'Equal distribution: ${dice.equalDistr}',
         ),
+
 
 
 

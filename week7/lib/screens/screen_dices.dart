@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:week6/widgets/die.dart';
 import 'package:week6/widgets/info.dart';
 import 'package:week6/widgets/navigation_bar.dart';
+import 'package:week6/widgets/timer.dart';
 
 import '../model/dice.dart';
 import '../providers.dart';
@@ -32,15 +33,9 @@ class ScreenDices extends ConsumerStatefulWidget {
 
 
 
-   void _throwDice() {
-     debugPrint("throw dice");
-     setState(() {
-       var model = ref.watch(modelProvider.notifier);
-       model.throwDice(1);
-     });
-   }
-
    void _manyThrows() {
+     ref.watch(timerModelProvider.notifier).resetTimer(ref);
+
      setState(() {
        var notifier = ref.watch(modelProvider.notifier);
        notifier.throwDice(1000);
@@ -70,6 +65,9 @@ class ScreenDices extends ConsumerStatefulWidget {
 
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+
+            TimerWidget(ref: ref),
+
             DieWidget(ref: ref),
 
             InfoWidget(ref: ref),

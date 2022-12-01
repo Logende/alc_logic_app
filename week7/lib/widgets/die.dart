@@ -23,11 +23,16 @@ class DieWidget extends ConsumerStatefulWidget {
 
 class DieState extends ConsumerState<DieWidget> {
 
+
   @override
   Widget build(BuildContext context) {
+
+
     return
       GestureDetector(
           onTap: () {
+            ref.watch(timerModelProvider.notifier).resetTimer(ref);
+
             setState(() {
               ref.watch(modelProvider.notifier).throwDice(1);
             });

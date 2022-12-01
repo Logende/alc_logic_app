@@ -8,6 +8,8 @@ import 'package:week6/widgets/navigation_bar.dart';
 
 import '../main.dart';
 import '../model/dice.dart';
+import '../model/timer_model.dart';
+import '../providers.dart';
 
 class ScreenStats extends ConsumerStatefulWidget {
    const ScreenStats({super.key});
@@ -32,6 +34,7 @@ class _ScreenStatsState extends ConsumerState<ScreenStats> {
 
   @override
   Widget build(BuildContext context) {
+    TimerModel timerModel = ref.watch(timerModelProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -46,6 +49,12 @@ class _ScreenStatsState extends ConsumerState<ScreenStats> {
           children: <Widget>[
 
             InfoWidget(ref: ref),
+
+            Text(
+              'Timer delta: last: ${timerModel.lastDelta.toStringAsFixed(1)}, '
+                  'min: ${timerModel.minDelta.toStringAsFixed(1)}, '
+                  'max: ${timerModel.maxDelta.toStringAsFixed(1)}',
+            ),
 
             HeatmapDistributionWidget(ref: ref),
             HeatmapIndividualThrowsWidget(ref: ref),
