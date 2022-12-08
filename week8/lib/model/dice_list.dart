@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:week8/data_persistence_handler.dart';
 import 'package:week8/model/dice.dart';
 
 
@@ -11,7 +12,6 @@ DiceList createDefaultDiceListState() {
   final List<Dice> list = [ createDefaultDiceState() ];
   return DiceList(list: list, current: 0, redoMax: 0);
 }
-
 
 
 @immutable
@@ -54,6 +54,7 @@ class DiceList {
     return _addDiceState(currentDice().resetStatistics());
   }
 
+
   DiceList _addDiceState(Dice newDice) {
     if (list.length > current + 1) {
       list[current + 1] = newDice;
@@ -86,6 +87,10 @@ class DiceList {
   }
 
 
+  DiceList _overwriteState(Dice dice) {
+    list[current] = dice;
+    return this;
+  }
 
 
 }
@@ -95,6 +100,7 @@ class DiceListNotifier extends StateNotifier<DiceList> {
 
   void throwDice(int throwCount) {
     state = state._throwDice(throwCount);
+    persistState(currentDice());
   }
 
   Dice currentDice() {
@@ -107,14 +113,17 @@ class DiceListNotifier extends StateNotifier<DiceList> {
 
   void resetStatistics() {
     state = state._resetStatistics();
+    persistState(currentDice());
   }
 
   void undo() {
     state = state._undo();
+    persistState(currentDice());
   }
 
   void redo() {
     state = state._redo();
+    persistState(currentDice());
   }
 
   bool isUndoPossible() {
@@ -123,6 +132,11 @@ class DiceListNotifier extends StateNotifier<DiceList> {
 
   bool isRedoPossible() {
     return state.isRedoPossible();
+  }
+
+
+  void initState(Dice dice) {
+    state = state._overwriteState(dice);
   }
 
 

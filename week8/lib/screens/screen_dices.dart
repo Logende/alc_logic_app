@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:week8/moviedb_handler.dart';
+import 'package:week8/data_persistence_handler.dart';
 import 'package:week8/widgets/die.dart';
 import 'package:week8/widgets/info.dart';
 import 'package:week8/widgets/navigation_bar.dart';
 import 'package:week8/widgets/timer.dart';
 
-import '../model/dice.dart';
 import '../providers.dart';
 
 class ScreenDices extends ConsumerStatefulWidget {
@@ -32,6 +31,25 @@ class ScreenDices extends ConsumerStatefulWidget {
    class _ScreenDicesState extends ConsumerState<ScreenDices> {
 
 
+     @override
+     void initState() {
+       super.initState();
+
+       // make sure this gets executed after initState
+       // to avoid conflicts
+       Future.delayed(Duration.zero, () {
+         initModelState();
+       });
+
+     }
+
+     Future<void> initModelState() async {
+       var notifier = ref.watch(modelProvider.notifier);
+       var dice = await readState();
+       setState(() {
+         notifier.initState(dice);
+       });
+     }
 
 
    void _manyThrows() {

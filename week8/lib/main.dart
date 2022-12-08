@@ -6,14 +6,14 @@ import 'package:week8/router.dart';
 
 
 void main() {
-  runApp(ProviderScope(child: MyApp(),)
+  runApp(const ProviderScope(child: MyApp(),)
 
   );
 }
 
 
 class MyApp extends ConsumerWidget {
-   MyApp({super.key});
+   const MyApp({super.key});
 
 
 

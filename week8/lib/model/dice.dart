@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:week8/helpers.dart';
 
 const int minDie = 1;
 const int maxDie = 6;
@@ -34,6 +35,23 @@ class Dice {
   // in case of dice 1 to 6 this list would start at 2 and go to 12
   final List<int> sumStatistics;
   final List<List<int>> dieStatistics;
+
+
+  Dice.fromMap(Map<String, dynamic> json)
+      : equalDistr = json['equalDistr'],
+        die = mapListDynamicToListInt(json['die']),
+        numberOfThrows = json['numberOfThrows'],
+        sumStatistics = mapListDynamicToListInt(json['sumStatistics']),
+        dieStatistics = map2dListDynamicToListIntInt(json['dieStatistics']);
+
+  Map<String, dynamic> toMap() => {
+    'equalDistr': equalDistr,
+    'die': die,
+    'numberOfThrows': numberOfThrows,
+    'sumStatistics': sumStatistics,
+    'dieStatistics': dieStatistics,
+  };
+
 
 
   Dice copyWith({bool? equalDistr, List<int>? die, int? numberOfThrows,
