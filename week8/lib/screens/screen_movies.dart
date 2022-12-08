@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:week6/moviedb_handler.dart';
-import 'package:week6/widgets/die.dart';
-import 'package:week6/widgets/info.dart';
-import 'package:week6/widgets/navigation_bar.dart';
-import 'package:week6/widgets/timer.dart';
+import 'package:week8/moviedb_handler.dart';
+import 'package:week8/widgets/die.dart';
+import 'package:week8/widgets/info.dart';
+import 'package:week8/widgets/navigation_bar.dart';
+import 'package:week8/widgets/timer.dart';
 
 import '../model/dice.dart';
 import '../model/movie.dart';

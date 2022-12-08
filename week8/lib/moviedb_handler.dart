@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:week6/model/movie.dart';
+import 'package:week8/model/movie.dart';
 
 
 Future<Movie> fetchMovie(String path) async {

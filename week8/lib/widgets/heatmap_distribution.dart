@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:week6/screens/screen_detailed_sum.dart';
+import 'package:week8/screens/screen_detailed_sum.dart';
 
 import '../model/dice.dart';
 import '../providers.dart';

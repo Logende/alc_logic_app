@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fl_heatmap/fl_heatmap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:week6/screens/screen_detailed_combination.dart';
+import 'package:week8/screens/screen_detailed_combination.dart';
 
 import '../model/dice.dart';
 import '../providers.dart';

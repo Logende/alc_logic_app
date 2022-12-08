@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:week6/widgets/info_detailed_combination.dart';
-import 'package:week6/widgets/navigation_bar.dart';
+import 'package:week8/widgets/info_detailed_combination.dart';
+import 'package:week8/widgets/navigation_bar.dart';
 
 class ScreenDetailedCombination extends ConsumerStatefulWidget {
    const ScreenDetailedCombination({super.key});

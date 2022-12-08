@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:week6/model/dice_list.dart';
-import 'package:week6/model/timer_model.dart';
+import 'package:week8/model/dice_list.dart';
+import 'package:week8/model/timer_model.dart';
 
 final modelProvider = StateNotifierProvider<DiceListNotifier, DiceList>((ref) {
 return DiceListNotifier();

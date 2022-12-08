@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:week6/widgets/heatmap_distribution.dart';
-import 'package:week6/widgets/heatmap_individual_throws.dart';
-import 'package:week6/widgets/info.dart';
-import 'package:week6/widgets/navigation_bar.dart';
+import 'package:week8/widgets/heatmap_distribution.dart';
+import 'package:week8/widgets/heatmap_individual_throws.dart';
+import 'package:week8/widgets/info.dart';
+import 'package:week8/widgets/navigation_bar.dart';
 
 import '../main.dart';
 import '../model/dice.dart';

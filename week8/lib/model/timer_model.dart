@@ -4,7 +4,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:week6/providers.dart';
+import 'package:week8/providers.dart';
 
 
 Timer _createTimer(WidgetRef ref) {
