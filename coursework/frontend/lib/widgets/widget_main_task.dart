@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/providers.dart';
@@ -23,18 +24,20 @@ class WidgetMainTaskState extends ConsumerState<WidgetMainTask> {
       children: [
         Text("Satisfiable?", style: Theme.of(context).textTheme.headlineLarge),
         Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            decoration: BoxDecoration(
-              border:
-                  Border.all(color: Theme.of(context).primaryColor, width: 6),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(30),
-              child: Text(
-                gameState.currentTask.concept,
-                style: Theme.of(context).textTheme.headline1,
-              ),
-            ))
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+            border: Border.all(color: Theme.of(context).primaryColor, width: 6),
+          ),
+          width: 300,
+          height: 300,
+          child: AutoSizeText(
+            gameState.currentTask.concept,
+            minFontSize: 40,
+            wrapWords: false,
+            //style: Theme.of(context).textTheme.headline1,
+            maxLines: 4,
+          ),
+        )
       ],
     );
   }

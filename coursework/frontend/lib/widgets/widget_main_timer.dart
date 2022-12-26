@@ -20,8 +20,8 @@ class WidgetMainTimerState extends ConsumerState<WidgetMainTimer> {
       children: [
         Icon(
           Icons.access_time_outlined,
-          color: Theme.of(context).colorScheme.secondary,
-          size: 36,
+          color: Theme.of(context).textTheme.headline2!.color,
+          size: 60,
         ),
         Text(" 10:34:08", style: Theme.of(context).textTheme.headline2)
       ],

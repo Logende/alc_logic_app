@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/handlers/handler_default_task_loader.dart';
 import 'package:frontend/widgets/widget_main_answers.dart';
 import 'package:frontend/widgets/widget_main_task.dart';
 import 'package:frontend/widgets/widget_main_timer.dart';
@@ -22,9 +23,12 @@ class ScreenMain extends ConsumerStatefulWidget {
 }
 
 class _ScreenMainState extends ConsumerState<ScreenMain> {
+
   @override
   Widget build(BuildContext context) {
     GameState gameState = ref.watch(gameStateProvider);
+
+    IconData iconDataDarkmode = gameState.darkMode ? Icons.nights_stay : Icons.wb_sunny;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -35,7 +39,8 @@ class _ScreenMainState extends ConsumerState<ScreenMain> {
           IconButton(
               onPressed: onPressedHelp, icon: const Icon(Icons.help_outline)),
           IconButton(
-              onPressed: onPressedDarkmode, icon: const Icon(Icons.wb_sunny))
+            // nights_stay is name of other icon
+              onPressed: onPressedDarkmode, icon: Icon(iconDataDarkmode))
         ],
       ),
       body: Column(
@@ -52,5 +57,10 @@ class _ScreenMainState extends ConsumerState<ScreenMain> {
 
   void onPressedStatistics() {}
   void onPressedHelp() {}
-  void onPressedDarkmode() {}
+
+  void onPressedDarkmode() {
+    var gameState = ref.watch(gameStateProvider);
+    var notifier = ref.watch(gameStateProvider.notifier);
+    notifier.setDarkMode(!gameState.darkMode);
+  }
 }
