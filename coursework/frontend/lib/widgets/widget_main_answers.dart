@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/handlers/handler_task_selector.dart';
 import 'package:frontend/models/model_game_state.dart';
 import 'package:frontend/providers.dart';
 
@@ -17,20 +20,23 @@ class WidgetMainAnswersState extends ConsumerState<WidgetMainAnswers> {
   Widget build(BuildContext context) {
     GameState gameState = ref.watch(gameStateProvider);
 
-    var iconThumbsUpColor = Theme.of(context).textTheme.bodyText1!.color;
-    var iconThumbsDownColor = Theme.of(context).textTheme.bodyText1!.color;
+    var iconColor = Theme.of(context).textTheme.bodyText1!.color;
+    var iconThumbsUpColor = iconColor;
+    var iconThumbsDownColor = iconColor;
     if (gameState.showSolution) {
       var correctAnswer =
           gameState.userAnswerValue == gameState.currentTask.satisfiable;
       if (gameState.userAnswerValue) {
         iconThumbsUpColor = correctAnswer
-            ? Theme.of(context).colorScheme.background
+            ? Colors.green
             : Theme.of(context).colorScheme.error;
       } else {
         iconThumbsDownColor = correctAnswer
             ? Colors.green
             : Theme.of(context).colorScheme.error;
       }
+    } else {
+      iconColor = Colors.transparent;
     }
 
     return Row(
@@ -39,32 +45,63 @@ class WidgetMainAnswersState extends ConsumerState<WidgetMainAnswers> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         IconButton(
-            onPressed: onPressedThumbsUp,
+            onPressed: gameState.showSolution ? null : onPressedThumbsUp,
             iconSize: 60,
+
             icon: Icon(
               Icons.thumb_up,
               color: iconThumbsUpColor,
-            )),
+            ),
+        ),
+
         IconButton(
-            onPressed: onPressedThumbsDown,
+            onPressed: !gameState.showSolution ? null : onPressedNextTask,
+            iconSize: 60,
+            icon: Icon(
+              Icons.next_plan_outlined,
+              color: iconColor,
+            )
+        ),
+
+        IconButton(
+            onPressed: gameState.showSolution ? null : onPressedThumbsDown,
             iconSize: 60,
             icon: Icon(
               Icons.thumb_down,
               color: iconThumbsDownColor,
-            ))
+            )
+        )
       ],
     );
   }
 
   void onPressedThumbsUp() {
-    var notifier = ref.watch(gameStateProvider.notifier);
-    notifier.setShowSolution(true);
-    notifier.setUserAnswerValue(true);
+    var gameState = ref.watch(gameStateProvider);
+
+    // only allow choosing answer when solution is not yet shown
+    if (!gameState.showSolution) {
+      var notifier = ref.watch(gameStateProvider.notifier);
+      notifier.setShowSolution(true);
+      notifier.setUserAnswerValue(true);
+    }
   }
 
   void onPressedThumbsDown() {
+    var gameState = ref.watch(gameStateProvider);
+
+    // only allow choosing answer when solution is not yet shown
+    if (!gameState.showSolution) {
+      var notifier = ref.watch(gameStateProvider.notifier);
+      notifier.setShowSolution(true);
+      notifier.setUserAnswerValue(false);
+    }
+  }
+
+  void onPressedNextTask() {
+    var gameState = ref.watch(gameStateProvider);
+    var availableTasks = ref.watch(tasksProvider);
     var notifier = ref.watch(gameStateProvider.notifier);
-    notifier.setShowSolution(true);
-    notifier.setUserAnswerValue(false);
+    notifier.setShowSolution(false);
+    notifier.replaceTask(selectTask(gameState, availableTasks));
   }
 }

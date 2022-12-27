@@ -17,12 +17,19 @@ class WidgetMainTaskState extends ConsumerState<WidgetMainTask> {
   Widget build(BuildContext context) {
     var gameState = ref.watch(gameStateProvider);
 
+    var text = "Satisfiable?";
+    if (gameState.showSolution) {
+      text = gameState.currentTask.satisfiable
+          ? "Satisfiable."
+          : "Not Satisfiable.";
+    }
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text("Satisfiable?", style: Theme.of(context).textTheme.headlineLarge),
+        Text(text, style: Theme.of(context).textTheme.headlineLarge),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           decoration: BoxDecoration(
@@ -30,11 +37,11 @@ class WidgetMainTaskState extends ConsumerState<WidgetMainTask> {
           ),
           width: 300,
           height: 300,
+          alignment: Alignment.center,
           child: AutoSizeText(
             gameState.currentTask.concept,
             minFontSize: 40,
             wrapWords: false,
-            //style: Theme.of(context).textTheme.headline1,
             maxLines: 4,
           ),
         )
