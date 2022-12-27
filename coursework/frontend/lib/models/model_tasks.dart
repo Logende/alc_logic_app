@@ -19,6 +19,11 @@ class Task {
   final String concept;
   final bool satisfiable;
   final int complexity;
+
+  @override
+  String toString() {
+    return "$concept:$satisfiable:$complexity";
+  }
 }
 
 @immutable

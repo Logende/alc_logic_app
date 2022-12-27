@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/handlers/handler_default_task_loader.dart';
-import 'package:frontend/screens/screen_statistics.dart';
+import 'package:frontend/router.dart';
+import 'package:frontend/screens/screen_main.dart';
 import 'package:frontend/widgets/widget_main_answers.dart';
 import 'package:frontend/widgets/widget_main_task.dart';
 import 'package:frontend/widgets/widget_main_timer.dart';
@@ -9,23 +10,22 @@ import 'package:go_router/go_router.dart';
 
 import '../models/model_game_state.dart';
 import '../providers.dart';
-import '../router.dart';
 
-class ScreenMain extends ConsumerStatefulWidget {
-  const ScreenMain({super.key});
+class ScreenStatistics extends ConsumerStatefulWidget {
+  const ScreenStatistics({super.key});
 
-  static String get routeName => 'main';
-  static String get routeLocation => '/';
+  static String get routeName => 'statistics';
+  static String get routeLocation => '/statistics';
 
-  final String title = "ALC Logic Quiz";
+  final String title = "Statistics";
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
-    return _ScreenMainState();
+    return _ScreenStatisticsState();
   }
 }
 
-class _ScreenMainState extends ConsumerState<ScreenMain> {
+class _ScreenStatisticsState extends ConsumerState<ScreenStatistics> {
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +37,7 @@ class _ScreenMainState extends ConsumerState<ScreenMain> {
         title: Text(widget.title),
         actions: [
           IconButton(
-              onPressed: onPressedStatistics,
-              icon: const Icon(Icons.bar_chart)),
-          IconButton(
-              onPressed: onPressedHelp, icon: const Icon(Icons.help_outline)),
+              onPressed: onPressedClose, icon: const Icon(Icons.close)),
           IconButton(
             // nights_stay is name of other icon
               onPressed: onPressedDarkmode, icon: Icon(iconDataDarkmode))
@@ -50,19 +47,15 @@ class _ScreenMainState extends ConsumerState<ScreenMain> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          WidgetMainTimer(ref: ref),
-          WidgetMainTask(ref: ref),
-          WidgetMainAnswers(ref: ref),
+          Text(ref.watch(userStatisticsProvider).toMap().toString()),
         ],
       ),
     );
   }
 
-  void onPressedStatistics() {
-    context.go(ScreenStatistics.routeLocation);
+  void onPressedClose() {
+    context.go(ScreenMain.routeLocation);
   }
-
-  void onPressedHelp() {}
 
   void onPressedDarkmode() {
     var gameState = ref.watch(gameStateProvider);

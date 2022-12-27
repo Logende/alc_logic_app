@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/handlers/handler_data_persistence.dart';
 import 'package:frontend/handlers/handler_task_selector.dart';
 import 'package:frontend/models/model_game_state.dart';
 import 'package:frontend/providers.dart';
@@ -100,8 +101,13 @@ class WidgetMainAnswersState extends ConsumerState<WidgetMainAnswers> {
   void onPressedNextTask() {
     var gameState = ref.watch(gameStateProvider);
     var availableTasks = ref.watch(tasksProvider);
-    var notifier = ref.watch(gameStateProvider.notifier);
-    notifier.setShowSolution(false);
-    notifier.replaceTask(selectTask(gameState, availableTasks));
+    var gameStateNotifier = ref.watch(gameStateProvider.notifier);
+    var userStatisticsNotifier = ref.watch(userStatisticsProvider.notifier);
+
+    gameStateNotifier.setShowSolution(false);
+    gameStateNotifier.replaceTask(selectTask(gameState, availableTasks));
+
+    userStatisticsNotifier.addUserAttempt(gameState);
+    persistUserStatistics(ref.watch(userStatisticsProvider));
   }
 }
