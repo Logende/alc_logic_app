@@ -5,10 +5,14 @@ import 'package:frontend/models/model_tasks.dart';
 import 'package:frontend/providers.dart';
 
 GameState createInitialGameState(Ref ref) {
-  // TODO: Make take user-dependent
+  // TODO: Make task user-dependent
   Task currentTask = ref.watch(tasksProvider).tasks.first;
   return GameState(
-      currentTask: currentTask, showSolution: false, userAnswerValue: false, darkMode: false);
+      currentTask: currentTask,
+      showSolution: false,
+      userAnswerValue: false,
+      userAttemptDuration: 0.0,
+      darkMode: false);
 }
 
 @immutable
@@ -17,19 +21,26 @@ class GameState {
       {required this.currentTask,
       required this.showSolution,
       required this.userAnswerValue,
+      required this.userAttemptDuration,
       required this.darkMode});
 
   final Task currentTask;
   final bool showSolution;
   final bool userAnswerValue;
+  final double userAttemptDuration;
   final bool darkMode;
 
   GameState _copyWith(
-      {Task? currentTask, bool? showSolution, bool? userAnswerValue, bool? darkMode}) {
+      {Task? currentTask,
+      bool? showSolution,
+      bool? userAnswerValue,
+      double? userAttemptDuration,
+      bool? darkMode}) {
     return GameState(
       currentTask: currentTask ?? this.currentTask,
       showSolution: showSolution ?? this.showSolution,
       userAnswerValue: userAnswerValue ?? this.userAnswerValue,
+      userAttemptDuration: userAttemptDuration ?? this.userAttemptDuration,
       darkMode: darkMode ?? this.darkMode,
     );
   }
@@ -42,8 +53,9 @@ class GameState {
     return _copyWith(showSolution: showSolution);
   }
 
-  GameState _setUserAnswerValue(bool userAnswerValue) {
-    return _copyWith(userAnswerValue: userAnswerValue);
+  GameState _setUserAnswer(bool userAnswerValue, double attemptDuration) {
+    return _copyWith(
+        userAnswerValue: userAnswerValue, userAttemptDuration: attemptDuration);
   }
 
   GameState _setDarkMode(bool darkMode) {
@@ -62,8 +74,8 @@ class GameStateNotifier extends StateNotifier<GameState> {
     state = state._setShowSolution(showSolution);
   }
 
-  void setUserAnswerValue(bool userAnswerValue) {
-    state = state._setUserAnswerValue(userAnswerValue);
+  void setUserAnswer(bool userAnswerValue, double attemptDuration) {
+    state = state._setUserAnswer(userAnswerValue, attemptDuration);
   }
 
   void setDarkMode(bool darkMode) {

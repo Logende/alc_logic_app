@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/handlers/handler_data_persistence.dart';
-import 'package:frontend/handlers/handler_default_task_loader.dart';
 import 'package:frontend/models/model_game_state.dart';
 
 TaskStatistics createInitialTaskStatistics() {
@@ -39,7 +38,7 @@ class TaskStatistics {
         (gameState.userAnswerValue == gameState.currentTask.satisfiable
             ? 1
             : 0);
-    var totalTimeNeeded = this.totalTimeNeeded + 0.0; // TODO
+    var totalTimeNeeded = this.totalTimeNeeded + gameState.userAttemptDuration;
     return _copyWith(
         attempts: attempts,
         successes: successes,

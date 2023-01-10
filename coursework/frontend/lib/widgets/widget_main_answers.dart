@@ -28,13 +28,11 @@ class WidgetMainAnswersState extends ConsumerState<WidgetMainAnswers> {
       var correctAnswer =
           gameState.userAnswerValue == gameState.currentTask.satisfiable;
       if (gameState.userAnswerValue) {
-        iconThumbsUpColor = correctAnswer
-            ? Colors.green
-            : Theme.of(context).colorScheme.error;
+        iconThumbsUpColor =
+            correctAnswer ? Colors.green : Theme.of(context).colorScheme.error;
       } else {
-        iconThumbsDownColor = correctAnswer
-            ? Colors.green
-            : Theme.of(context).colorScheme.error;
+        iconThumbsDownColor =
+            correctAnswer ? Colors.green : Theme.of(context).colorScheme.error;
       }
     } else {
       iconColor = Colors.transparent;
@@ -46,32 +44,27 @@ class WidgetMainAnswersState extends ConsumerState<WidgetMainAnswers> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         IconButton(
-            onPressed: gameState.showSolution ? null : onPressedThumbsUp,
+            onPressed: gameState.showSolution ? null : onPressedThumbsDown,
             iconSize: 60,
-
             icon: Icon(
-              Icons.thumb_up,
-              color: iconThumbsUpColor,
-            ),
-        ),
-
+              Icons.thumb_down,
+              color: iconThumbsDownColor,
+            )),
         IconButton(
             onPressed: !gameState.showSolution ? null : onPressedNextTask,
             iconSize: 60,
             icon: Icon(
               Icons.next_plan_outlined,
               color: iconColor,
-            )
-        ),
-
+            )),
         IconButton(
-            onPressed: gameState.showSolution ? null : onPressedThumbsDown,
-            iconSize: 60,
-            icon: Icon(
-              Icons.thumb_down,
-              color: iconThumbsDownColor,
-            )
-        )
+          onPressed: gameState.showSolution ? null : onPressedThumbsUp,
+          iconSize: 60,
+          icon: Icon(
+            Icons.thumb_up,
+            color: iconThumbsUpColor,
+          ),
+        ),
       ],
     );
   }
@@ -82,8 +75,12 @@ class WidgetMainAnswersState extends ConsumerState<WidgetMainAnswers> {
     // only allow choosing answer when solution is not yet shown
     if (!gameState.showSolution) {
       var notifier = ref.watch(gameStateProvider.notifier);
+      var timeProvider = ref.watch(timerProvider);
       notifier.setShowSolution(true);
-      notifier.setUserAnswerValue(true);
+      notifier.setUserAnswer(true, timeProvider.timerValue);
+
+      var timerNotifier = ref.watch(timerProvider.notifier);
+      timerNotifier.stopTime();
     }
   }
 
@@ -93,8 +90,12 @@ class WidgetMainAnswersState extends ConsumerState<WidgetMainAnswers> {
     // only allow choosing answer when solution is not yet shown
     if (!gameState.showSolution) {
       var notifier = ref.watch(gameStateProvider.notifier);
+      var timeProvider = ref.watch(timerProvider);
       notifier.setShowSolution(true);
-      notifier.setUserAnswerValue(false);
+      notifier.setUserAnswer(false, timeProvider.timerValue);
+
+      var timerNotifier = ref.watch(timerProvider.notifier);
+      timerNotifier.stopTime();
     }
   }
 
@@ -108,6 +109,7 @@ class WidgetMainAnswersState extends ConsumerState<WidgetMainAnswers> {
     gameStateNotifier.replaceTask(selectTask(gameState, availableTasks));
 
     userStatisticsNotifier.addUserAttempt(gameState);
+    ref.watch(timerProvider.notifier).resetTimer();
     persistUserStatistics(ref.watch(userStatisticsProvider));
   }
 }

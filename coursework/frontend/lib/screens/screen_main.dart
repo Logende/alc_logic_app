@@ -60,6 +60,8 @@ class _ScreenMainState extends ConsumerState<ScreenMain> {
 
   void onPressedStatistics() {
     context.go(ScreenStatistics.routeLocation);
+    var timerNotifier = ref.watch(timerProvider.notifier);
+    timerNotifier.stopTime();
   }
 
   void onPressedHelp() {}

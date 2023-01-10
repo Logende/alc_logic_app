@@ -13,5 +13,5 @@ Future<GameState> loadGameState(Ref ref) async {
 
   var taskList = ref.watch(tasksProvider).tasks;
   var task = taskList[Random().nextInt(taskList.length)];
-  return GameState(currentTask: task, showSolution: false, userAnswerValue: false, darkMode: false);
+  return GameState(currentTask: task, showSolution: false, userAnswerValue: false, userAttemptDuration: 0.0, darkMode: false);
 }
