@@ -7,6 +7,7 @@ import 'package:frontend/screens/screen_main.dart';
 import 'package:frontend/widgets/widget_main_answers.dart';
 import 'package:frontend/widgets/widget_main_task.dart';
 import 'package:frontend/widgets/widget_main_timer.dart';
+import 'package:frontend/widgets/widget_statistics_chart_success_over_difficulty.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_file.dart';
 
@@ -57,6 +58,8 @@ class _ScreenStatisticsState extends ConsumerState<ScreenStatistics> {
           Text("Average Time/Task: ${formatTimePlaytime(averageTimePerTask)}",
               style: Theme.of(context).textTheme.headlineSmall),
           Text(ref.watch(userStatisticsProvider).toMap().toString()),
+
+          BarChartSample2(ref: ref),
         ],
       ),
     );
@@ -64,7 +67,10 @@ class _ScreenStatisticsState extends ConsumerState<ScreenStatistics> {
 
   void onPressedClose() {
     context.go(ScreenMain.routeLocation);
-    var timerNotifier = ref.watch(timerProvider.notifier);
-    timerNotifier.continueTime();
+    var gameState = ref.watch(gameStateProvider);
+    if (!gameState.showSolution) {
+      var timerNotifier = ref.watch(timerProvider.notifier);
+      timerNotifier.continueTime();
+    }
   }
 }

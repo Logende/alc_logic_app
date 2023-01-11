@@ -14,6 +14,9 @@ String formatTimeTimer(double time) {
 }
 
 String formatTimePlaytime(double time) {
+  if (time.isInfinite || time.isNaN) {
+    time = 0;
+  }
   // taken from https://stackoverflow.com/questions/54775097/formatting-a-duration-like-hhmmss
   var duration = Duration(milliseconds: (time * 1000).toInt());
   String twoDigits(int n) => n.toString().padLeft(2, "0");

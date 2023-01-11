@@ -24,6 +24,12 @@ class Task {
   String toString() {
     return "$concept:$satisfiable:$complexity";
   }
+
+  Task.fromString(String definition)
+      : concept = definition.split(":")[0],
+        satisfiable = definition.split(":")[1] == 'true',
+        complexity = int.parse(definition.split(":")[2]);
+
 }
 
 @immutable

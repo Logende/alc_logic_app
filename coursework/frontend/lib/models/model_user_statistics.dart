@@ -3,8 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/handlers/handler_data_persistence.dart';
 import 'package:frontend/models/model_game_state.dart';
 
+import 'model_tasks.dart';
+
 TaskStatistics createInitialTaskStatistics() {
-  return const TaskStatistics(attempts: 0, successes: 0, totalTimeNeeded: 0.0);
+  return const TaskStatistics(
+      attempts: 0,
+      successes: 0,
+      totalTimeNeeded: 0.0,
+      task: Task(concept: "A", satisfiable: true, complexity: 0));
 }
 
 UserStatistics createInitialUserStatistics(bool loaded) {
@@ -17,19 +23,22 @@ class TaskStatistics {
   const TaskStatistics(
       {required this.attempts,
       required this.successes,
-      required this.totalTimeNeeded});
+      required this.totalTimeNeeded,
+      required this.task});
 
   final int attempts;
   final int successes;
   final double totalTimeNeeded;
 
+  final Task task;
+
   TaskStatistics _copyWith(
       {int? attempts, int? successes, double? totalTimeNeeded}) {
     return TaskStatistics(
-      attempts: attempts ?? this.attempts,
-      successes: successes ?? this.successes,
-      totalTimeNeeded: totalTimeNeeded ?? this.totalTimeNeeded,
-    );
+        attempts: attempts ?? this.attempts,
+        successes: successes ?? this.successes,
+        totalTimeNeeded: totalTimeNeeded ?? this.totalTimeNeeded,
+        task: task);
   }
 
   TaskStatistics _addAttempt(GameState gameState) {
@@ -48,12 +57,14 @@ class TaskStatistics {
   TaskStatistics.fromMap(Map<String, dynamic> json)
       : attempts = json['attempts'],
         successes = json['successes'],
-        totalTimeNeeded = json['totalTimeNeeded'];
+        totalTimeNeeded = json['totalTimeNeeded'],
+        task = Task.fromString(json['task']);
 
   Map<String, dynamic> toMap() => {
         'attempts': attempts,
         'successes': successes,
-        'totalTimeNeeded': totalTimeNeeded
+        'totalTimeNeeded': totalTimeNeeded,
+        'task': task.toString()
       };
 }
 
