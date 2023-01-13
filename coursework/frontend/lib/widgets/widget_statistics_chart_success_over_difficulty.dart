@@ -1,32 +1,33 @@
+import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/providers.dart';
 
-// copied from https://github.com/imaNNeoFighT/fl_chart/blob/master/example/lib/bar_chart/samples/bar_chart_sample2.dart
-class BarChartSample2 extends ConsumerStatefulWidget {
-  const BarChartSample2({super.key, required this.ref});
+// copied and modified from https://github.com/imaNNeoFighT/fl_chart/blob/master/example/lib/bar_chart/samples/bar_chart_sample2.dart
+class BarChartSuccessOverDifficulty extends ConsumerStatefulWidget {
+  const BarChartSuccessOverDifficulty({super.key, required this.ref});
 
   final WidgetRef ref;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => BarChartSample2State();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      BarChartSuccessOverDifficultyState();
 }
 
-class BarChartSample2State extends ConsumerState<BarChartSample2> {
-  final Color leftBarColor = const Color(0xff53fdd7);
-  final Color rightBarColor = const Color(0xffff5182);
+class BarChartSuccessOverDifficultyState
+    extends ConsumerState<BarChartSuccessOverDifficulty> {
   final double width = 7;
 
   late List<BarChartGroupData> rawBarGroups;
   late List<BarChartGroupData> showingBarGroups;
+  late int maxValue;
 
   int touchedGroupIndex = -1;
 
   @override
-  void initState() {
-    super.initState();
-
+  Widget build(BuildContext context) {
     var userStats = ref.watch(userStatisticsProvider);
     var maxDifficulty = userStats.tasksStatistics.values.fold(
         0,
@@ -37,28 +38,30 @@ class BarChartSample2State extends ConsumerState<BarChartSample2> {
 
     var attempts = <int, int>{};
     var successes = <int, int>{};
+    var failures = <int, int>{};
 
     for (var difficulty in difficulties) {
       attempts[difficulty] = 0;
       successes[difficulty] = 0;
+      failures[difficulty] = 0;
     }
     for (var element in userStats.tasksStatistics.values) {
       var complexity = element.task.complexity;
 
       attempts[complexity] = attempts[complexity]! + element.attempts;
-      successes[complexity] = successes[complexity]! + element.attempts;
+      successes[complexity] = successes[complexity]! + element.successes;
+      failures[complexity] =
+          failures[complexity]! + (element.attempts - element.successes);
     }
 
-    final items = List.of(difficulties.map((e) => makeGroupData(e,
-        successes[e]!.toDouble(), (attempts[e]! - successes[e]!).toDouble())));
+    final items = List.of(difficulties.map((e) =>
+        makeGroupData(e, successes[e]!.toDouble(), failures[e]!.toDouble())));
 
     rawBarGroups = items;
-
     showingBarGroups = rawBarGroups;
-  }
 
-  @override
-  Widget build(BuildContext context) {
+    maxValue = max(attempts.values.reduce(max), failures.values.reduce(max));
+
     return AspectRatio(
       aspectRatio: 1,
       child: Padding(
@@ -67,8 +70,8 @@ class BarChartSample2State extends ConsumerState<BarChartSample2> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             const Text(
-              'Successes / Difficulty',
-              style: TextStyle(color: Colors.white, fontSize: 22),
+              'Right/Wrong by task complexity',
+              style: TextStyle(fontSize: 22),
             ),
             const SizedBox(
               height: 20,
@@ -76,7 +79,7 @@ class BarChartSample2State extends ConsumerState<BarChartSample2> {
             Expanded(
               child: BarChart(
                 BarChartData(
-                  maxY: 20,
+                  maxY: maxValue.toDouble() - 1.0,
                   barTouchData: BarTouchData(
                     touchTooltipData: BarTouchTooltipData(
                       tooltipBgColor: Colors.grey,
@@ -132,11 +135,9 @@ class BarChartSample2State extends ConsumerState<BarChartSample2> {
     );
     String text;
     if (value == 0) {
-      text = '1K';
-    } else if (value == 10) {
-      text = '5K';
-    } else if (value == 19) {
-      text = '10K';
+      text = '1';
+    } else if (value == maxValue - 1) {
+      text = maxValue.toString();
     } else {
       return Container();
     }
@@ -148,11 +149,10 @@ class BarChartSample2State extends ConsumerState<BarChartSample2> {
   }
 
   Widget bottomTitles(double value, TitleMeta meta) {
-
     var userStats = ref.watch(userStatisticsProvider);
     var maxDifficulty = userStats.tasksStatistics.values.fold(
         0,
-            (previousValue, element) => previousValue < element.task.complexity
+        (previousValue, element) => previousValue < element.task.complexity
             ? element.task.complexity
             : previousValue);
     var difficulties = List<int>.generate(maxDifficulty + 1, (i) => i);
@@ -181,12 +181,12 @@ class BarChartSample2State extends ConsumerState<BarChartSample2> {
       barRods: [
         BarChartRodData(
           toY: y1,
-          color: leftBarColor,
+          color: Colors.green,
           width: width,
         ),
         BarChartRodData(
           toY: y2,
-          color: rightBarColor,
+          color: Theme.of(context).colorScheme.error,
           width: width,
         ),
       ],

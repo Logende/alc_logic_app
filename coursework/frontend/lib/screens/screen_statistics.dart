@@ -8,6 +8,7 @@ import 'package:frontend/widgets/widget_main_answers.dart';
 import 'package:frontend/widgets/widget_main_task.dart';
 import 'package:frontend/widgets/widget_main_timer.dart';
 import 'package:frontend/widgets/widget_statistics_chart_success_over_difficulty.dart';
+import 'package:frontend/widgets/widget_statistics_chart_time_over_difficulty.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_file.dart';
 
@@ -31,38 +32,39 @@ class ScreenStatistics extends ConsumerStatefulWidget {
 class _ScreenStatisticsState extends ConsumerState<ScreenStatistics> {
   @override
   Widget build(BuildContext context) {
-    GameState gameState = ref.watch(gameStateProvider);
-
     var stats = ref.watch(userStatisticsProvider);
-    var totalTimePlayed = stats.tasksStatistics.values.fold(
-        0.0,
-        (previousValue, element) =>
-            previousValue + element.totalTimeNeeded);
+    var totalTimePlayed = stats.tasksStatistics.values.fold(0.0,
+        (previousValue, element) => previousValue + element.totalTimeNeeded);
     var totalAttempts = stats.tasksStatistics.values
         .fold(0, (previousValue, element) => previousValue + element.attempts);
     var averageTimePerTask = totalTimePlayed / totalAttempts;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: [
-          IconButton(onPressed: onPressedClose, icon: const Icon(Icons.close)),
-        ],
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text("Total Time Played: ${formatTimePlaytime(totalTimePlayed)}",
-              style: Theme.of(context).textTheme.headlineSmall),
-          Text("Average Time/Task: ${formatTimePlaytime(averageTimePerTask)}",
-              style: Theme.of(context).textTheme.headlineSmall),
-          Text(ref.watch(userStatisticsProvider).toMap().toString()),
+        appBar: AppBar(
+          title: Text(widget.title),
+          actions: [
+            IconButton(
+                onPressed: onPressedClose, icon: const Icon(Icons.close)),
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("Total Time Played: ${formatTimePlaytime(totalTimePlayed)}",
+                  style: Theme.of(context).textTheme.headlineSmall),
+              Text(
+                  "Average Time/Task: ${formatTimePlaytime(averageTimePerTask)}",
+                  style: Theme.of(context).textTheme.headlineSmall),
+              //Text(ref.watch(userStatisticsProvider).toMap().toString()),
 
-          BarChartSample2(ref: ref),
-        ],
-      ),
-    );
+              BarChartSuccessOverDifficulty(ref: ref),
+
+              LineChartTimeOverDifficulty(ref: ref),
+            ],
+          ),
+        ));
   }
 
   void onPressedClose() {

@@ -5,12 +5,12 @@ import 'package:frontend/models/model_game_state.dart';
 
 import 'model_tasks.dart';
 
-TaskStatistics createInitialTaskStatistics() {
-  return const TaskStatistics(
+TaskStatistics createInitialTaskStatistics(Task task) {
+  return TaskStatistics(
       attempts: 0,
       successes: 0,
       totalTimeNeeded: 0.0,
-      task: Task(concept: "A", satisfiable: true, complexity: 0));
+      task: task);
 }
 
 UserStatistics createInitialUserStatistics(bool loaded) {
@@ -93,7 +93,7 @@ class UserStatistics {
       tasksStatistics[taskId] = tasksStatistics[taskId]!._addAttempt(gameState);
     } else {
       tasksStatistics[taskId] =
-          createInitialTaskStatistics()._addAttempt(gameState);
+          createInitialTaskStatistics(gameState.currentTask)._addAttempt(gameState);
     }
     return UserStatistics(tasksStatistics: tasksStatistics, loaded: loaded);
   }
