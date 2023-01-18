@@ -46,7 +46,7 @@ class LineChartTimeOverDifficultyState
     final spots = List.generate(
         stats.difficulties.length,
         (i) => FlSpot(
-            i.toDouble(), stats.totalTimeNeeded[i]! / stats.attempts[i]!.toDouble()));
+            i.toDouble(), stats.averageTimeNeeded[i]!));
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -99,7 +99,7 @@ class LineChartTimeOverDifficultyState
                 ),
               ],
               minY: 0,
-              maxY: 1.5,
+              maxY: stats.averageTimeNeeded.values.reduce(max),
               titlesData: FlTitlesData(
                 leftTitles: AxisTitles(
                   sideTitles: SideTitles(

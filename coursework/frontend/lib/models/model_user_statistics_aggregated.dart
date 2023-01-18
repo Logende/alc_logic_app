@@ -14,6 +14,7 @@ class UserStatisticsAggregated {
       this.mostDifficultTask,
       this.attempts,
       this.totalTimeNeeded,
+      this.averageTimeNeeded,
       this.successes,
       this.failures,
       this.difficulties);
@@ -23,6 +24,7 @@ class UserStatisticsAggregated {
   final Task mostDifficultTask;
   final Map<int, int> attempts;
   final Map<int, double> totalTimeNeeded;
+  final Map<int, double> averageTimeNeeded;
   final Map<int, int> successes;
   final Map<int, int> failures;
   final List<int> difficulties;
@@ -44,6 +46,7 @@ UserStatisticsAggregated aggregateUserStatistics(UserStatistics userStats) {
 
   var attempts = <int, int>{};
   var totalTimeNeeded = <int, double>{};
+  var averageTimeNeeded = <int, double>{};
   var successes = <int, int>{};
   var failures = <int, int>{};
 
@@ -64,6 +67,11 @@ UserStatisticsAggregated aggregateUserStatistics(UserStatistics userStats) {
         failures[complexity]! + (element.attempts - element.successes);
   }
 
+  for (var difficulty in difficulties) {
+    averageTimeNeeded[difficulty] =
+        totalTimeNeeded[difficulty]! / attempts[difficulty]!;
+  }
+
   var mostDifficultTask = userStats.tasksStatistics.values
       .reduce((value, element) => value.attempts - value.successes >
               element.attempts - element.successes
@@ -77,6 +85,7 @@ UserStatisticsAggregated aggregateUserStatistics(UserStatistics userStats) {
       mostDifficultTask,
       attempts,
       totalTimeNeeded,
+      averageTimeNeeded,
       successes,
       failures,
       difficulties);
