@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/handlers/handler_default_task_loader.dart';
 import 'package:frontend/handlers/handlers_time_formatter.dart';
+import 'package:frontend/models/model_user_statistics_aggregated.dart';
 import 'package:frontend/router.dart';
 import 'package:frontend/screens/screen_main.dart';
 import 'package:frontend/widgets/widget_main_answers.dart';
@@ -33,11 +34,7 @@ class _ScreenStatisticsState extends ConsumerState<ScreenStatistics> {
   @override
   Widget build(BuildContext context) {
     var stats = ref.watch(userStatisticsProvider);
-    var totalTimePlayed = stats.tasksStatistics.values.fold(0.0,
-        (previousValue, element) => previousValue + element.totalTimeNeeded);
-    var totalAttempts = stats.tasksStatistics.values
-        .fold(0, (previousValue, element) => previousValue + element.attempts);
-    var averageTimePerTask = totalTimePlayed / totalAttempts;
+    var statsAggregated = aggregateUserStatistics(stats);
 
     return Scaffold(
         appBar: AppBar(
@@ -52,16 +49,21 @@ class _ScreenStatisticsState extends ConsumerState<ScreenStatistics> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("Total Time Played: ${formatTimePlaytime(totalTimePlayed)}",
+              Text("Total Time Played: ${formatTimePlaytime(statsAggregated.totalTimePlayed)}",
                   style: Theme.of(context).textTheme.headlineSmall),
               Text(
-                  "Average Time/Task: ${formatTimePlaytime(averageTimePerTask)}",
+                  "Average Time/Task: ${formatTimePlaytime(statsAggregated.averageTimePerTask)}",
+                  style: Theme.of(context).textTheme.headlineSmall),
+
+              Text(
+                  "Most difficult task: '${statsAggregated.mostDifficultTask.concept}'",
                   style: Theme.of(context).textTheme.headlineSmall),
               //Text(ref.watch(userStatisticsProvider).toMap().toString()),
 
-              BarChartSuccessOverDifficulty(ref: ref),
+              BarChartSuccessOverDifficulty(ref: ref, stats: statsAggregated),
 
-              LineChartTimeOverDifficulty(ref: ref),
+              LineChartTimeOverDifficulty(ref: ref, stats: statsAggregated),
+
             ],
           ),
         ));

@@ -3,13 +3,15 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/models/model_user_statistics_aggregated.dart';
 import 'package:frontend/providers.dart';
 
 // copied and modified from https://github.com/imaNNeoFighT/fl_chart/blob/master/example/lib/bar_chart/samples/bar_chart_sample2.dart
 class BarChartSuccessOverDifficulty extends ConsumerStatefulWidget {
-  const BarChartSuccessOverDifficulty({super.key, required this.ref});
+  const BarChartSuccessOverDifficulty({super.key, required this.ref, required this.stats});
 
   final WidgetRef ref;
+  final UserStatisticsAggregated stats;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -18,6 +20,8 @@ class BarChartSuccessOverDifficulty extends ConsumerStatefulWidget {
 
 class BarChartSuccessOverDifficultyState
     extends ConsumerState<BarChartSuccessOverDifficulty> {
+
+
   final double width = 7;
 
   late List<BarChartGroupData> rawBarGroups;
@@ -28,39 +32,14 @@ class BarChartSuccessOverDifficultyState
 
   @override
   Widget build(BuildContext context) {
-    var userStats = ref.watch(userStatisticsProvider);
-    var maxDifficulty = userStats.tasksStatistics.values.fold(
-        0,
-        (previousValue, element) => previousValue < element.task.complexity
-            ? element.task.complexity
-            : previousValue);
-    var difficulties = List<int>.generate(maxDifficulty + 1, (i) => i);
-
-    var attempts = <int, int>{};
-    var successes = <int, int>{};
-    var failures = <int, int>{};
-
-    for (var difficulty in difficulties) {
-      attempts[difficulty] = 0;
-      successes[difficulty] = 0;
-      failures[difficulty] = 0;
-    }
-    for (var element in userStats.tasksStatistics.values) {
-      var complexity = element.task.complexity;
-
-      attempts[complexity] = attempts[complexity]! + element.attempts;
-      successes[complexity] = successes[complexity]! + element.successes;
-      failures[complexity] =
-          failures[complexity]! + (element.attempts - element.successes);
-    }
-
-    final items = List.of(difficulties.map((e) =>
-        makeGroupData(e, successes[e]!.toDouble(), failures[e]!.toDouble())));
+    var stats = widget.stats;
+    final items = List.of(stats.difficulties.map((e) =>
+        makeGroupData(e, stats.successes[e]!.toDouble(), stats.failures[e]!.toDouble())));
 
     rawBarGroups = items;
     showingBarGroups = rawBarGroups;
 
-    maxValue = max(attempts.values.reduce(max), failures.values.reduce(max));
+    maxValue = max(stats.attempts.values.reduce(max), stats.failures.values.reduce(max));
 
     return AspectRatio(
       aspectRatio: 1,
@@ -70,7 +49,7 @@ class BarChartSuccessOverDifficultyState
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             const Text(
-              'Right/Wrong by task complexity',
+              'Right/Wrong by task complexity [#]',
               style: TextStyle(fontSize: 22),
             ),
             const SizedBox(
@@ -128,11 +107,7 @@ class BarChartSuccessOverDifficultyState
   }
 
   Widget leftTitles(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Color(0xff7589a2),
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
-    );
+    var style = Theme.of(context).textTheme.caption;
     String text;
     if (value == 0) {
       text = '1';
@@ -160,11 +135,7 @@ class BarChartSuccessOverDifficultyState
 
     final Widget text = Text(
       titles[value.toInt()],
-      style: const TextStyle(
-        color: Color(0xff7589a2),
-        fontWeight: FontWeight.bold,
-        fontSize: 14,
-      ),
+      style: Theme.of(context).textTheme.caption
     );
 
     return SideTitleWidget(
