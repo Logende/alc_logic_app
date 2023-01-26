@@ -53,6 +53,7 @@ class _ScreenMainState extends ConsumerState<ScreenMain> {
           WidgetMainTimer(ref: ref),
           WidgetMainTask(ref: ref),
           WidgetMainAnswers(ref: ref),
+
         ],
       ),
     );
@@ -64,7 +65,9 @@ class _ScreenMainState extends ConsumerState<ScreenMain> {
     timerNotifier.stopTime();
   }
 
-  void onPressedHelp() {}
+  void onPressedHelp() {
+    context.go("/sign-in");
+  }
 
   void onPressedDarkmode() {
     var gameState = ref.watch(gameStateProvider);

@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/models/model_game_state.dart';
 import 'package:frontend/models/model_tasks.dart';
@@ -30,4 +32,13 @@ final timerProvider =
   var notifier = TimerModelNotifier(ref);
   notifier.resetTimer();
   return notifier;
+});
+
+final firebaseInitializerProvider = FutureProvider<FirebaseApp>((ref) async {
+  return await Firebase.initializeApp();
+});
+
+
+final authProvider = StreamProvider<User?>((ref) {
+  return FirebaseAuth.instance.authStateChanges();
 });
