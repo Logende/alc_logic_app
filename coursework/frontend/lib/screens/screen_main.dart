@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/handlers/handler_default_task_loader.dart';
+import 'package:frontend/main.dart';
 import 'package:frontend/screens/screen_statistics.dart';
 import 'package:frontend/widgets/widget_main_answers.dart';
 import 'package:frontend/widgets/widget_main_task.dart';
@@ -32,6 +33,8 @@ class _ScreenMainState extends ConsumerState<ScreenMain> {
     GameState gameState = ref.watch(gameStateProvider);
 
     IconData iconDataDarkmode = gameState.darkMode ? Icons.nights_stay : Icons.wb_sunny;
+
+    IconData iconDataUsermanagement = loggedIn ? Icons.account_box_outlined : Icons.login;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -41,6 +44,8 @@ class _ScreenMainState extends ConsumerState<ScreenMain> {
               icon: const Icon(Icons.bar_chart)),
           IconButton(
               onPressed: onPressedHelp, icon: const Icon(Icons.help_outline)),
+          IconButton(
+              onPressed: onPressedUsermanagement, icon: Icon(iconDataUsermanagement)),
           IconButton(
             // nights_stay is name of other icon
               onPressed: onPressedDarkmode, icon: Icon(iconDataDarkmode))
@@ -66,7 +71,14 @@ class _ScreenMainState extends ConsumerState<ScreenMain> {
   }
 
   void onPressedHelp() {
-    context.go("/sign-in");
+  }
+
+  void onPressedUsermanagement() {
+    if (!loggedIn) {
+      context.go("/sign-in");
+    } else {
+      context.go("/profile");
+    }
   }
 
   void onPressedDarkmode() {

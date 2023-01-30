@@ -68,8 +68,11 @@ UserStatisticsAggregated aggregateUserStatistics(UserStatistics userStats) {
   }
 
   for (var difficulty in difficulties) {
-    averageTimeNeeded[difficulty] =
-        totalTimeNeeded[difficulty]! / attempts[difficulty]!;
+    var avg = totalTimeNeeded[difficulty]! / attempts[difficulty]!;
+    if (avg.isNaN || avg.isInfinite) {
+      avg = 0;
+    }
+    averageTimeNeeded[difficulty] = avg;
   }
 
   var mostDifficultTask = userStats.tasksStatistics.values

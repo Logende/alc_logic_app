@@ -67,20 +67,6 @@ class LineChartTimeOverDifficultyState
                 touchTooltipData: LineTouchTooltipData(
                   maxContentWidth: 100,
                   tooltipBgColor: Colors.orange,
-                  getTooltipItems: (touchedSpots) {
-                    return touchedSpots.map((LineBarSpot touchedSpot) {
-                      final textStyle = TextStyle(
-                        color: touchedSpot.bar.gradient?.colors[0] ??
-                            touchedSpot.bar.color,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      );
-                      return LineTooltipItem(
-                        '${touchedSpot.x}, ${touchedSpot.y.toStringAsFixed(2)}',
-                        textStyle,
-                      );
-                    }).toList();
-                  },
                 ),
                 handleBuiltInTouches: true,
                 getTouchLineStart: (data, index) => 0,

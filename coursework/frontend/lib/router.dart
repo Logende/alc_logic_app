@@ -8,6 +8,8 @@ import 'package:go_router/go_router.dart';
 final _key = GlobalKey<NavigatorState>();
 
 final routerProvider = Provider<GoRouter>((ref) {
+
+
   return GoRouter(
     navigatorKey: _key,
     debugLogDiagnostics: true,
@@ -28,6 +30,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         },
       ),
 
+      // taken from https://firebase.google.com/codelabs/firebase-get-to-know-flutter#4
       GoRoute(
         path: "/sign-in",
         name: "sign-in",
@@ -56,7 +59,7 @@ final routerProvider = Provider<GoRouter>((ref) {
                             'Please check your email to verify your email address'));
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
-                  Navigator.of(context).pushReplacementNamed('/home');
+                  context.go(ScreenMain.routeLocation);
                 }
               })),
             ],
@@ -85,10 +88,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         name: "profile",
         builder: (context, state) {return ProfileScreen(
           providers: const [],
+          //children: [ TextButton(onPressed: onPressedBack, child: Text("back"))],
           actions: [
             SignedOutAction(
               ((context) {
-                Navigator.of(context).pushReplacementNamed('/home');
+                context.go(ScreenMain.routeLocation);
               }),
             ),
           ],
@@ -105,3 +109,5 @@ final routerProvider = Provider<GoRouter>((ref) {
     },
   );
 });
+
+
