@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/handlers/handler_default_task_loader.dart';
@@ -34,7 +35,7 @@ class _ScreenMainState extends ConsumerState<ScreenMain> {
 
     IconData iconDataDarkmode = gameState.darkMode ? Icons.nights_stay : Icons.wb_sunny;
 
-    IconData iconDataUsermanagement = loggedIn ? Icons.account_box_outlined : Icons.login;
+    IconData iconDataUsermanagement = FirebaseAuth.instance.currentUser != null ? Icons.account_box_outlined : Icons.login;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -74,11 +75,7 @@ class _ScreenMainState extends ConsumerState<ScreenMain> {
   }
 
   void onPressedUsermanagement() {
-    if (!loggedIn) {
-      context.go("/sign-in");
-    } else {
       context.go("/profile");
-    }
   }
 
   void onPressedDarkmode() {

@@ -9,8 +9,6 @@ import 'package:frontend/screens/screen_main.dart';
 
 import 'firebase_options.dart';
 
-bool _loggedIn = false;
-bool get loggedIn => _loggedIn;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,16 +18,6 @@ Future<void> main() async {
   FirebaseUIAuth.configureProviders([
     EmailAuthProvider(),
   ]);
-
-  _loggedIn = FirebaseAuth.instance.currentUser != null;
-
-  FirebaseAuth.instance.userChanges().listen((user) {
-    if (user != null) {
-      _loggedIn = true;
-    } else {
-      _loggedIn = false;
-    }
-  });
 
   runApp(const ProviderScope(
     child: MyApp(),
