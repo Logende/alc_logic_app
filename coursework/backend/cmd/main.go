@@ -1,4 +1,4 @@
-package cmd
+package main
 
 import (
 	"backend/pkg"
@@ -7,6 +7,16 @@ import (
 )
 
 func main() {
+
+	var taskDefinitions pkg.TaskDefinitionList
+	taskDefinitions, error := taskDefinitions.ReadTaskDefinitions()
+
+	if error != nil {
+		print(error)
+	}
+
+	tasks := taskDefinitions.ReadTasks()
+	print(tasks)
 	server := &pkg.UserServer{Store: pkg.NewInMemoryUserStore()}
 	log.Fatal(http.ListenAndServe(":5001", server))
 }
