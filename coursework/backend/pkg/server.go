@@ -11,8 +11,14 @@ type UserStore interface {
 	GetUser(name string) (UserProfile, bool)
 }
 
+type TaskStore interface {
+	UpdateTasks(tasks []Task)
+	GetTasks() []Task
+}
+
 type UserServer struct {
-	Store UserStore
+	StoreUsers UserStore
+	StoreTasks TaskStore
 }
 
 func (p *UserServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -30,6 +36,10 @@ func (p *UserServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		p.handleRequestUser(w, r, parts[1])
 		break
 
+	case firstPart == "tasks" && length == 1:
+		p.handleRequestTasks(w, r)
+		break
+
 	default:
 		http.NotFound(w, r)
 		return
@@ -40,9 +50,11 @@ func (p *UserServer) handleRequestUser(w http.ResponseWriter, r *http.Request, n
 	switch r.Method {
 	case http.MethodPost:
 		// TODO
+		break
+
 	case http.MethodGet:
 
-		user, ok := p.Store.GetUser(name)
+		user, ok := p.StoreUsers.GetUser(name)
 		if !ok {
 			http.NotFound(w, r)
 		} else {
@@ -50,6 +62,30 @@ func (p *UserServer) handleRequestUser(w http.ResponseWriter, r *http.Request, n
 			w.WriteHeader(http.StatusOK)
 			json.NewEncoder(w).Encode(user)
 		}
+		break
+
+	default:
+		http.NotFound(w, r)
+		break
+	}
+}
+
+func (p *UserServer) handleRequestTasks(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodPost:
+		// TODO
+		break
+
+	case http.MethodGet:
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(p.StoreTasks.GetTasks())
+		break
+
+	default:
+		http.NotFound(w, r)
+		break
 	}
 }
 
