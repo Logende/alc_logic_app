@@ -1,1 +1,1 @@
-docker run --name backend-mongo-db -d mongo:latest
+docker run --name backend-mongo-db -p 27017:27017 -d mongo:latest
