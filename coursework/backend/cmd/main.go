@@ -4,6 +4,7 @@ import (
 	"backend/pkg"
 	"context"
 	"fmt"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
@@ -39,7 +40,16 @@ func main() {
 		print(error)
 	}
 
+	exampleUser := pkg.UserProfile{
+		ID:              primitive.ObjectID{},
+		Name:            "someName",
+		PasswordHash:    "werwer",
+		TasksStatistics: map[string]pkg.TaskStatistics{},
+	}
+	
+	fmt.Printf("%+v\n", exampleUser)
+
 	tasks := taskDefinitions.ReadTasks()
-	server := &pkg.UserServer{StoreUsers: pkg.NewInMemoryUserStore(), StoreTasks: pkg.NewMongoTaskStore(tasks, client)}
+	server := &pkg.UserServer{StoreUsers: pkg.NewMongoUserStore(client), StoreTasks: pkg.NewMongoTaskStore(tasks, client)}
 	log.Fatal(http.ListenAndServe(":5001", server))
 }

@@ -48,7 +48,7 @@ func (p *UserServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func (p *UserServer) handleRequestUser(w http.ResponseWriter, r *http.Request, name string) {
 	switch r.Method {
-	case http.MethodPost:
+	case http.MethodPut:
 		// TODO
 		break
 

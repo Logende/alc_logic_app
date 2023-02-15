@@ -13,24 +13,22 @@ func NewMongoTaskStore(defaultTasks []Task, client *mongo.Client) *MongoTaskStor
 	collectionTasks := databaseAlcLogic.Collection("tasks")
 	count, err := collectionTasks.CountDocuments(context.TODO(), bson.D{})
 	if count == 0 || err != nil {
-		WriteTasksToDB(defaultTasks, client)
+		WriteTasksToDB(client, defaultTasks)
 	}
-	tasks := ReadTasksFromDB(client)
 
-	return &MongoTaskStore{tasks, client}
+	return &MongoTaskStore{client}
 }
 
 type MongoTaskStore struct {
-	tasks  []Task
 	client *mongo.Client
 }
 
 func (i *MongoTaskStore) GetTasks() []Task {
-	return i.tasks
+	return ReadTasksFromDB(i.client)
 }
 
 func (i *MongoTaskStore) UpdateTasks(tasks []Task) {
-	i.tasks = tasks
+	WriteTasksToDB(i.client, tasks)
 }
 
 func ReadTasksFromDB(client *mongo.Client) []Task {
@@ -40,23 +38,24 @@ func ReadTasksFromDB(client *mongo.Client) []Task {
 	cursor, err := collection.Find(context.TODO(), bson.D{})
 	if err != nil {
 		panic(err)
-	} else {
-		for cursor.Next(context.TODO()) {
-			var result Task
-			err := cursor.Decode(&result)
-			tasks = append(tasks, result)
+	}
 
-			if err != nil {
-				panic(err)
-			}
+	for cursor.Next(context.TODO()) {
+		var result Task
+		err := cursor.Decode(&result)
 
+		if err != nil {
+			panic(err)
 		}
+
+		tasks = append(tasks, result)
+
 	}
 
 	return tasks
 }
 
-func WriteTasksToDB(tasks []Task, client *mongo.Client) {
+func WriteTasksToDB(client *mongo.Client, tasks []Task) {
 	collection := client.Database("alc_logic").Collection("tasks")
 
 	elements := make([]interface{}, len(tasks))
@@ -67,7 +66,8 @@ func WriteTasksToDB(tasks []Task, client *mongo.Client) {
 	insertManyResult, err := collection.InsertMany(context.TODO(), elements)
 	if err != nil {
 		log.Fatal(err)
+	} else {
+		fmt.Println("Inserted tasks: ", insertManyResult.InsertedIDs)
 	}
 
-	fmt.Println("Inserted multiple documents: ", insertManyResult.InsertedIDs)
 }
