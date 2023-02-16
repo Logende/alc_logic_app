@@ -67,19 +67,6 @@ func pickRandomConcepts(options []interface{}, countSatisfiable int, countNonSat
 	return result
 }
 
-func isSatisfiable(concept interface{}) bool {
-	return true
-}
-
-func contains(s []int, e int) bool {
-	for _, a := range s {
-		if a == e {
-			return true
-		}
-	}
-	return false
-}
-
 func groupConceptsByComplexity(concepts []interface{}) [][]interface{} {
 	var result [][]interface{}
 
