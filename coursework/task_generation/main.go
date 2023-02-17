@@ -18,8 +18,12 @@ func main() {
 	desiredCounts := []int{
 		1,
 		5, // todo: change to 0 as first levels are hardcoded
-		44,
-		70,
+		14,
+		20,
+		20,
+		20,
+		20,
+		20,
 	}
 
 	// fixed seed for deterministic results
@@ -58,9 +62,11 @@ func pickRandomConcepts(options []interface{}, countSatisfiable int, countNonSat
 		if satisfiable && countSatisfiable > 0 {
 			result = append(result, pick)
 			countSatisfiable -= 1
+			fmt.Println("chose satisfiable formula ", toString(pick))
 		} else if !satisfiable && countNonSatisfiable > 0 {
 			result = append(result, pick)
 			countNonSatisfiable -= 1
+			fmt.Println("chose non-satisfiable formula ", toString(pick))
 		}
 	}
 

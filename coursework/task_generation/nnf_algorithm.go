@@ -1,6 +1,6 @@
 package main
 
-// taken from https://logic4free.informatik.uni-kiel.de/llocs/Negation_normal_form
+// taken from https://logic4free.informatik.uni-kiel.de/llocs/Negation_normal_form and extended by quantifiers
 func negNNF(concept interface{}) interface{} {
 	switch concept.(type) {
 	case BaseConcept:
@@ -51,6 +51,18 @@ func BNF2NNF(concept interface{}) interface{} {
 		return OperatorUnion{
 			A: BNF2NNF(concept.(OperatorUnion).A),
 			B: BNF2NNF(concept.(OperatorUnion).B),
+		}
+
+	case QuantifierForEach:
+		return QuantifierForEach{
+			R: concept.(QuantifierForEach).R,
+			C: BNF2NNF(concept.(QuantifierForEach).C),
+		}
+
+	case QuantifierExists:
+		return QuantifierExists{
+			R: concept.(QuantifierExists).R,
+			C: BNF2NNF(concept.(QuantifierExists).C),
 		}
 
 	default:

@@ -12,7 +12,7 @@ func isSatisfiable(concept interface{}) bool {
 			awaitingForEach: []QuantifierForEach{},
 		},
 	}
-
+	tableaus = completeSatisfiabilityAlgorithm(tableaus, concept)
 	return hasSolutionWithoutClash(tableaus)
 }
 
@@ -31,25 +31,15 @@ type Relationship struct {
 func completeSatisfiabilityAlgorithm(tableaus []Tableau, concept interface{}) []Tableau {
 	tableaus = computeSatisfiability(tableaus, concept)
 
-	everythingDone := false
-
-	for !everythingDone {
-
-		everythingDone = true
-
-		for _, tableau := range tableaus {
-			if len(tableau.awaitingForEach) > 0 {
-				everythingDone = false
-				tableau.applyQuantifierForEachRule()
-			}
+	var resultingTableaus []Tableau
+	for _, tableau := range tableaus {
+		if len(tableau.awaitingForEach) > 0 {
+			tableau.applyQuantifierForEachRule()
+			tableau.awaitingForEach = nil
 		}
-
-		// new stuff might be added due to quantifier resolution
-		if !everythingDone {
-			tableaus = computeSatisfiability(tableaus, concept)
-		}
-
+		resultingTableaus = append(resultingTableaus, tableau)
 	}
+	tableaus = resultingTableaus
 
 	return tableaus
 }
@@ -68,7 +58,16 @@ func (t Tableau) applyQuantifierForEachRule() {
 func hasSolutionWithoutClash(tableaus []Tableau) bool {
 	for _, tableau := range tableaus {
 		if !tableau.clash {
-			return true
+
+			if len(tableau.relationships) > 0 {
+				for _, relationship := range tableau.relationships {
+					if hasSolutionWithoutClash(relationship.otherConceptTableaus) {
+						return true
+					}
+				}
+			} else {
+				return true
+			}
 		}
 	}
 	return false
@@ -104,12 +103,12 @@ func (t Tableau) computeSatisfiability(concept interface{}) []Tableau {
 		tableaus = []Tableau{t}
 		break
 
-	case OperatorUnion:
+	case OperatorIntersection:
 		// it is possible that computation of satisfiability of A leads to multiple tableaus
 		// therefore, for every outcoming tableau, compute satisfiability with B and then return all combinations
-		subTableaus := t.computeSatisfiability(concept.(OperatorUnion).A)
+		subTableaus := t.computeSatisfiability(concept.(OperatorIntersection).A)
 		for _, tableau := range subTableaus {
-			tableaus = append(tableaus, tableau.computeSatisfiability(concept.(OperatorUnion).B)...)
+			tableaus = append(tableaus, tableau.computeSatisfiability(concept.(OperatorIntersection).B)...)
 		}
 		// if any outcoming tableau should be without clash, that means there is a solution with A combined with B
 		// that has no clash
@@ -124,7 +123,7 @@ func (t Tableau) computeSatisfiability(concept interface{}) []Tableau {
 		}
 		break
 
-	case OperatorIntersection:
+	case OperatorUnion:
 		tableauA := Tableau{
 			// should be copy because not using pointer
 			elementConcepts: t.elementConcepts,
@@ -137,8 +136,8 @@ func (t Tableau) computeSatisfiability(concept interface{}) []Tableau {
 			clash:           t.clash,
 			relationships:   t.relationships,
 		}
-		tableaus = append(tableaus, tableauA.computeSatisfiability(concept.(OperatorIntersection).A)...)
-		tableaus = append(tableaus, tableauB.computeSatisfiability(concept.(OperatorIntersection).B)...)
+		tableaus = append(tableaus, tableauA.computeSatisfiability(concept.(OperatorUnion).A)...)
+		tableaus = append(tableaus, tableauB.computeSatisfiability(concept.(OperatorUnion).B)...)
 		break
 
 	case QuantifierExists:
