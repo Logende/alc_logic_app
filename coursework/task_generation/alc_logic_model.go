@@ -3,20 +3,6 @@ package main
 type Concept interface {
 }
 
-type OperatorBinary interface {
-	Concept
-	Concept
-}
-
-type OperatorUnary interface {
-	Concept
-}
-
-type Quantifier interface {
-	Role
-	Concept
-}
-
 type BaseConcept struct {
 	Name string
 }
@@ -47,4 +33,15 @@ type QuantifierForEach struct {
 type QuantifierExists struct {
 	R Role
 	C Concept
+}
+
+type Task struct {
+	Concept     string      `yaml:"concept"`
+	Satisfiable bool        `yaml:"satisfiable"`
+	Complexity  int         `yaml:"complexity"`
+	C           interface{} `yaml:"concept_structure,omitempty"`
+}
+
+type TaskList struct {
+	Tasks []Task `yaml:"tasks"`
 }

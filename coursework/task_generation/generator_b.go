@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func generateConceptsB(nBasicConcepts int, nRoles int, nLevels int) []interface{} {
-	// generate base concepts A, B, C, ..., TOP, BOTTOM
+	// generate base concepts A, B, Concept, ..., TOP, BOTTOM
 	var concepts []BaseConcept
 	for i := 0; i < nBasicConcepts; i++ {
 		concepts = append(concepts, BaseConcept{Name: conceptNameByIndex(i)})

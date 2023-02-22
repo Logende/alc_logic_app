@@ -16,38 +16,43 @@ func main() {
 	conceptsByComplexity := groupConceptsByComplexity(concepts)
 
 	desiredCounts := []int{
-		1,
-		5, // todo: change to 0 as first levels are hardcoded
-		14,
-		20,
-		20,
-		20,
-		20,
-		20,
+		2, // complexity 0 -> just one base concept such as A or bottom or top
+		5, // complexity 1 -> concepts such as neg(A) or A AND B or EXISTS ROLE R for BOTTOM
+		30,
+		30,
+		30,
+		30,
+		30,
+		50,
 	}
 
 	// fixed seed for deterministic results
 	rand.Seed(7)
 
-	var chosenConcepts []interface{}
+	var chosenTasks []Task
 	for complexity, count := range desiredCounts {
 		options := conceptsByComplexity[complexity]
 		countSatisfiable := count / 2
 		countNonSatisfiable := count/2 + count%2
-		chosenConcepts = append(chosenConcepts, pickRandomConcepts(options, countSatisfiable, countNonSatisfiable))
+		maxCountWithTopBottom := count / 3
+		chosenTasks = append(chosenTasks, pickRandomTasks(options, countSatisfiable, countNonSatisfiable,
+			maxCountWithTopBottom)...)
 	}
 
 	// for every desiredCounts elements, pick random object of index complexity
 	// check if concept is satisfiable. Keep searching until half of desired elements is satisfiable and other half is not
 
-	println(chosenConcepts)
+	println(chosenTasks)
 	println(conceptsByComplexity)
 	println(desiredCounts)
 
+	exportAsYAML(TaskList{Tasks: chosenTasks}, "tasks.yml")
+
 }
 
-func pickRandomConcepts(options []interface{}, countSatisfiable int, countNonSatisfiable int) []interface{} {
-	var result []interface{}
+func pickRandomTasks(options []interface{}, countSatisfiable int, countNonSatisfiable int,
+	maxCountWithTopBottom int) []Task {
+	var result []Task
 
 	// shuffle options ti get random order
 	for i := range options {
@@ -57,20 +62,54 @@ func pickRandomConcepts(options []interface{}, countSatisfiable int, countNonSat
 
 	for i := 0; i < len(options) && (countSatisfiable > 0 || countNonSatisfiable > 0); i++ {
 		pick := options[i]
+
+		if isFunctionallyEqualTaskContained(result, pick) {
+			continue
+		}
+
 		satisfiable := isSatisfiable(pick)
+		containsTopOrBottom := containsBaseConcept(pick, "⊥") || containsBaseConcept(pick, "⊤")
+
+		if containsTopOrBottom {
+			if maxCountWithTopBottom > 0 {
+				maxCountWithTopBottom -= 1
+			} else {
+				continue
+			}
+		}
 
 		if satisfiable && countSatisfiable > 0 {
-			result = append(result, pick)
+			result = append(result, Task{
+				Concept:     toString(pick),
+				Satisfiable: satisfiable,
+				Complexity:  determineComplexity(pick),
+				C:           pick,
+			})
 			countSatisfiable -= 1
 			fmt.Println("chose satisfiable formula ", toString(pick))
 		} else if !satisfiable && countNonSatisfiable > 0 {
-			result = append(result, pick)
+			result = append(result, Task{
+				Concept:     toString(pick),
+				Satisfiable: satisfiable,
+				Complexity:  determineComplexity(pick),
+				C:           pick,
+			})
 			countNonSatisfiable -= 1
 			fmt.Println("chose non-satisfiable formula ", toString(pick))
 		}
 	}
 
 	return result
+}
+
+func isFunctionallyEqualTaskContained(tasks []Task, concept interface{}) bool {
+	for _, task := range tasks {
+		if isFunctionallyEqual(concept, task.C) {
+			return true
+		}
+	}
+
+	return false
 }
 
 func groupConceptsByComplexity(concepts []interface{}) [][]interface{} {
@@ -85,33 +124,6 @@ func groupConceptsByComplexity(concepts []interface{}) [][]interface{} {
 		}
 
 		result[complexity] = append(result[complexity], concept)
-	}
-
-	return result
-}
-
-func determineComplexity(concept interface{}) int {
-	var result int
-
-	switch concept.(type) {
-	case BaseConcept:
-		result = 0
-		break
-	case OperatorUnion:
-		result = 1 + determineComplexity(concept.(OperatorUnion).A) + determineComplexity(concept.(OperatorUnion).B)
-		break
-	case OperatorIntersection:
-		result = 1 + determineComplexity(concept.(OperatorIntersection).A) + determineComplexity(concept.(OperatorIntersection).B)
-		break
-	case OperatorNegation:
-		result = 1 + determineComplexity(concept.(OperatorNegation).C)
-		break
-	case QuantifierForEach:
-		result = 1 + determineComplexity(concept.(QuantifierForEach).C)
-		break
-	case QuantifierExists:
-		result = 1 + determineComplexity(concept.(QuantifierExists).C)
-		break
 	}
 
 	return result
