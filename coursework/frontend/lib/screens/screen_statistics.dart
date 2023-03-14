@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/handlers/handler_default_task_loader.dart';
+import 'package:frontend/handlers/handler_task_loader.dart';
 import 'package:frontend/handlers/handlers_time_formatter.dart';
 import 'package:frontend/models/model_user_statistics_aggregated.dart';
 import 'package:frontend/router.dart';

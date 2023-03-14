@@ -10,7 +10,7 @@ type TaskDefinitionList struct {
 }
 
 func (c *TaskDefinitionList) ReadTaskDefinitions() (TaskDefinitionList, error) {
-	yamlFile, err := os.ReadFile("assets/default_tasks_backend.yaml")
+	yamlFile, err := os.ReadFile("assets/generated_tasks_backend.yaml")
 
 	if err == nil {
 		err = yaml.Unmarshal(yamlFile, c)

@@ -36,12 +36,15 @@ type QuantifierExists struct {
 }
 
 type Task struct {
-	Concept     string      `yaml:"concept"`
-	Satisfiable bool        `yaml:"satisfiable"`
-	Complexity  int         `yaml:"complexity"`
-	C           interface{} `yaml:"concept_structure,omitempty"`
+	Satisfiable bool
+	Complexity  int
+	Concept     interface{}
 }
 
 type TaskList struct {
-	Tasks []Task `yaml:"tasks"`
+	Tasks []Task
+}
+
+type TaskListForYaml struct {
+	Tasks []string `yaml:"tasks"`
 }

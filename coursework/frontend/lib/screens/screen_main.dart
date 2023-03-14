@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/handlers/handler_default_task_loader.dart';
+import 'package:frontend/handlers/handler_task_loader.dart';
 import 'package:frontend/main.dart';
 import 'package:frontend/screens/screen_statistics.dart';
 import 'package:frontend/widgets/widget_main_answers.dart';

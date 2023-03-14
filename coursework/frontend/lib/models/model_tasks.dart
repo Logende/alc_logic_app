@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/handlers/handler_default_task_loader.dart';
+import 'package:frontend/handlers/handler_data_persistence.dart';
+import 'package:frontend/handlers/handler_task_loader.dart';
 
 TaskList createInitialTaskList() {
   var tasks = <Task>[
@@ -30,6 +31,10 @@ class Task {
         satisfiable = definition.split(":")[1] == 'true',
         complexity = int.parse(definition.split(":")[2]);
 
+  Task.fromJson(Map<String, dynamic> definition)
+      : concept = definition['Concept'],
+        satisfiable = definition['Satisfiable'],
+        complexity = definition['Complexity'];
 }
 
 @immutable
@@ -45,10 +50,20 @@ class TaskListNotifier extends StateNotifier<TaskList> {
 
   void updateTasks(List<Task> newTasks, bool loaded) {
     state = TaskList(tasks: newTasks, loaded: loaded);
+
+    // always when the tasks are updated: persist them for next time
+    persistTasks(newTasks);
   }
 
   void load() {
-    loadDefaultTasks().then((value) => updateTasks(value, true));
+    // read tasks, which is either previously saved tasks or if none exists
+    // it is the default tasks
+    readTasks().then((value) => updateTasks(value, true));
+
+    // try to fetch tasks from backend and if it succeeds, update tasks with them
+    fetchTasksFromBackend().then((value) => updateTasks(value, true));
+    print("fetched taks from backend, now having ${state.tasks.length}");
+
   }
 
   bool isLoaded() {
