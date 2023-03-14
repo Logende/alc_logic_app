@@ -33,12 +33,13 @@ func main() {
 	fmt.Println("Connected to MongoDB!")
 	defer client.Disconnect(context.TODO())
 
+	// read the default tasks from file system
 	var taskDefinitions pkg.TaskDefinitionList
 	taskDefinitions, error := taskDefinitions.ReadTaskDefinitions()
-
 	if error != nil {
 		print(error)
 	}
+	tasks := taskDefinitions.ReadTasks()
 
 	exampleUser := pkg.UserProfile{
 		ID:              primitive.ObjectID{},
@@ -46,10 +47,13 @@ func main() {
 		PasswordHash:    "werwer",
 		TasksStatistics: map[string]pkg.TaskStatistics{},
 	}
-	
+
 	fmt.Printf("%+v\n", exampleUser)
 
-	tasks := taskDefinitions.ReadTasks()
+	// create server and already connect with Mongodb and if there are existing tasks, take them over
+	// otherwise use default tasks and write them to DB
 	server := &pkg.UserServer{StoreUsers: pkg.NewMongoUserStore(client), StoreTasks: pkg.NewMongoTaskStore(tasks, client)}
+
+	// start running server
 	log.Fatal(http.ListenAndServe(":5001", server))
 }

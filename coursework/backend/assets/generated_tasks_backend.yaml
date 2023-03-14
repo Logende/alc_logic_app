@@ -1,0 +1,192 @@
+tasks:
+  - C:true:0
+  - (∃r.A):true:1
+  - ¬⊤:false:1
+  - (A ⊓ B):true:1
+  - (⊤ ⊔ (∃r.⊤)):true:2
+  - ((B ⊓ C) ⊓ ⊤):true:2
+  - (A ⊔ (∀r.⊥)):true:2
+  - ((∀s.A) ⊓ ⊥):false:2
+  - (∀r.(∃r.A)):true:2
+  - ¬(C ⊓ ⊥):true:2
+  - (⊤ ⊓ (∃r.⊥)):false:2
+  - (B ⊔ (∀r.B)):true:2
+  - ((∃s.A) ⊓ ⊤):true:2
+  - (∀r.¬C):true:2
+  - ((B ⊓ ⊥) ⊓ C):false:2
+  - (⊤ ⊓ ¬⊤):false:2
+  - (B ⊔ (∃s.C)):true:2
+  - (B ⊓ (C ⊓ ⊥)):false:2
+  - ¬(B ⊓ C):true:2
+  - ((A ⊔ C) ⊓ C):true:2
+  - (¬A ⊔ B):true:2
+  - (∃r.(B ⊔ C)):true:2
+  - ((B ⊓ C) ⊔ C):true:2
+  - (∃s.¬C):true:2
+  - (B ⊓ ¬B):false:2
+  - (A ⊔ (A ⊔ (∀r.⊤))):true:3
+  - ((A ⊓ ⊤) ⊓ (A ⊔ ⊤)):true:3
+  - ((B ⊓ ⊥) ⊔ (∃r.C)):true:3
+  - (¬A ⊔ (∀s.A)):true:3
+  - ((B ⊓ ⊤) ⊔ (∃s.⊤)):true:3
+  - ((∀r.C) ⊓ (∃r.⊤)):true:3
+  - ((∃r.A) ⊓ (∀s.A)):true:3
+  - (B ⊔ (B ⊓ (∃r.⊥))):true:3
+  - (∃r.((⊤ ⊔ ⊥) ⊔ ⊥)):true:3
+  - ((A ⊓ ⊥) ⊔ (C ⊔ ⊥)):true:3
+  - ((A ⊓ C) ⊓ (⊤ ⊓ ⊥)):false:3
+  - (∃r.((∀s.C) ⊓ ⊥)):false:3
+  - ((B ⊓ C) ⊓ ¬C):false:3
+  - ((A ⊔ B) ⊓ (∀s.B)):true:3
+  - (A ⊓ (∃r.(∃r.B))):true:3
+  - (B ⊓ (∃s.(∀s.C))):true:3
+  - ((∀r.B) ⊔ (∃s.C)):true:3
+  - ((∀r.A) ⊔ (B ⊔ C)):true:3
+  - ((B ⊓ ¬C) ⊓ C):false:3
+  - (∃r.(A ⊓ ¬A)):false:3
+  - (A ⊓ (¬A ⊓ C)):false:3
+  - (¬(A ⊔ C) ⊓ C):false:3
+  - ¬(B ⊔ ¬B):false:3
+  - (¬B ⊓ (B ⊓ C)):false:3
+  - (A ⊓ (B ⊓ ¬B)):false:3
+  - (A ⊓ ¬(A ⊔ C)):false:3
+  - (((A ⊓ ⊥) ⊔ (C ⊓ ⊤)) ⊔ B):true:4
+  - ((B ⊓ C) ⊔ ((∀s.B) ⊓ ⊤)):true:4
+  - ((∀r.(A ⊓ ⊤)) ⊔ (∀s.B)):true:4
+  - (C ⊔ ((∃s.C) ⊓ ¬⊤)):true:4
+  - (¬(∀r.A) ⊔ ¬⊤):true:4
+  - (((A ⊓ ⊥) ⊔ (B ⊔ C)) ⊓ C):true:4
+  - ((¬C ⊔ ⊥) ⊓ (∀r.⊤)):true:4
+  - ((∃s.(∃r.B)) ⊓ (⊤ ⊓ ⊥)):false:4
+  - (((∀s.A) ⊓ (∀s.⊤)) ⊔ ⊥):true:4
+  - ((∃r.¬A) ⊓ (B ⊓ ⊥)):false:4
+  - (∀r.((∃s.B) ⊔ (∃r.C))):true:4
+  - (((∀r.B) ⊓ C) ⊓ ¬C):false:4
+  - ((A ⊓ (∃s.C)) ⊓ (B ⊔ C)):true:4
+  - ((A ⊓ (∀s.A)) ⊔ (∃r.B)):true:4
+  - (((A ⊓ C) ⊔ (∃s.A)) ⊔ B):true:4
+  - ((A ⊔ (A ⊓ C)) ⊔ (B ⊔ C)):true:4
+  - ((∃r.A) ⊓ (C ⊔ (∃r.C))):true:4
+  - ((A ⊔ (B ⊓ C)) ⊔ (∀r.C)):true:4
+  - ((C ⊓ (∀s.C)) ⊓ ¬C):false:4
+  - (¬C ⊓ (C ⊓ (∃r.C))):false:4
+  - (((∀s.A) ⊓ ¬B) ⊓ B):false:4
+  - ((A ⊓ C) ⊓ (¬A ⊓ C)):false:4
+  - ((B ⊓ ¬C) ⊓ (B ⊓ C)):false:4
+  - ((B ⊓ ¬C) ⊓ ¬B):false:4
+  - ((B ⊓ C) ⊓ ¬(B ⊓ C)):false:4
+  - ((A ⊓ (∃r.C)) ⊓ ¬A):false:4
+  - (¬A ⊓ ((A ⊓ B) ⊓ B)):false:4
+  - (∃s.((A ⊓ B) ⊓ ¬B)):false:4
+  - ((∃s.A) ⊓ (C ⊓ ¬C)):false:4
+  - ((A ⊔ B) ⊓ (B ⊓ ¬B)):false:4
+  - ((A ⊓ ⊥) ⊔ ((⊤ ⊔ ⊥) ⊔ (∃s.⊤))):true:5
+  - (((∀r.B) ⊓ ⊥) ⊓ (⊤ ⊔ (∀s.⊤))):false:5
+  - ((∀r.A) ⊓ ((A ⊔ C) ⊔ ¬⊤)):true:5
+  - ((A ⊔ (∃r.⊤)) ⊓ (∃r.(C ⊓ ⊥))):true:5
+  - ((A ⊓ ⊥) ⊓ ((A ⊓ B) ⊔ (A ⊔ B))):false:5
+  - (((∃r.A) ⊓ ⊥) ⊓ ¬(⊤ ⊓ ⊥)):false:5
+  - (((∃r.A) ⊓ (∃s.A)) ⊓ (∀s.C)):true:5
+  - (((B ⊓ C) ⊓ ⊤) ⊓ ((∃r.B) ⊓ C)):true:5
+  - ((∃s.B) ⊔ ((B ⊓ ⊤) ⊓ (∀r.C))):true:5
+  - (((∀r.B) ⊔ ¬⊥) ⊓ (∃s.⊥)):false:5
+  - ((∃s.(A ⊓ B)) ⊓ (B ⊓ (∀r.B))):true:5
+  - (((∃s.C) ⊔ ¬⊤) ⊓ (⊤ ⊓ ⊥)):false:5
+  - (((A ⊓ B) ⊔ B) ⊓ (∃r.(∀r.A))):true:5
+  - (((B ⊓ C) ⊓ C) ⊔ (∃r.(B ⊓ C))):true:5
+  - (((A ⊓ B) ⊔ (∃s.C)) ⊓ (∃r.C)):true:5
+  - (((∃r.A) ⊔ (∃s.A)) ⊔ (∀r.C)):true:5
+  - ((A ⊔ (∀r.A)) ⊓ ((B ⊓ C) ⊔ C)):true:5
+  - ((¬B ⊔ C) ⊓ (∀s.(∀r.B))):true:5
+  - ((∃r.A) ⊔ ((∃s.B) ⊓ (∀r.C))):true:5
+  - ((¬A ⊔ C) ⊔ ((A ⊓ C) ⊔ C)):true:5
+  - (((A ⊓ C) ⊓ (∃r.C)) ⊓ ¬C):false:5
+  - ((A ⊓ ¬A) ⊓ ((∃s.A) ⊔ B)):false:5
+  - (¬(B ⊓ C) ⊓ (C ⊓ ¬C)):false:5
+  - ((A ⊓ ¬A) ⊓ (∀s.(∀r.C))):false:5
+  - (((A ⊓ C) ⊔ C) ⊓ ¬(B ⊔ C)):false:5
+  - ((¬A ⊓ C) ⊓ ((A ⊓ B) ⊓ C)):false:5
+  - ((∃s.(∀r.B)) ⊓ (C ⊓ ¬C)):false:5
+  - ((∃r.¬A) ⊓ (B ⊓ ¬B)):false:5
+  - (((∃r.A) ⊓ (B ⊓ C)) ⊓ ¬B):false:5
+  - (((∀r.A) ⊓ ¬C) ⊓ (B ⊓ C)):false:5
+  - (((A ⊔ ⊤) ⊔ C) ⊓ ((B ⊓ ⊥) ⊓ (C ⊔ ⊤))):false:6
+  - (((A ⊔ ⊤) ⊓ (∀r.B)) ⊓ ¬(∀s.C)):true:6
+  - (((A ⊔ C) ⊓ (B ⊔ ⊥)) ⊔ ((B ⊔ ⊥) ⊔ C)):true:6
+  - (((A ⊓ ⊤) ⊓ (∀s.⊤)) ⊓ (∃s.(∀s.⊤))):true:6
+  - (((A ⊓ ⊤) ⊓ (∃s.⊥)) ⊓ ((A ⊓ ⊥) ⊔ ⊤)):false:6
+  - (((A ⊔ B) ⊓ (∃s.B)) ⊓ ¬(C ⊓ ⊤)):true:6
+  - (((A ⊓ C) ⊔ (∀s.⊥)) ⊔ ((∀s.A) ⊓ ⊥)):true:6
+  - ((A ⊓ (∀r.B)) ⊔ (¬⊥ ⊓ (∃s.⊥))):true:6
+  - (((B ⊔ ⊥) ⊓ (∃s.⊤)) ⊔ (∀r.(∀s.⊥))):true:6
+  - (((B ⊓ ⊤) ⊓ (C ⊔ ⊥)) ⊔ (∀r.(B ⊔ ⊤))):true:6
+  - (((∃s.A) ⊔ ¬B) ⊔ (∃s.(∃r.C))):true:6
+  - ((∃s.(∃r.A)) ⊓ ((∀r.B) ⊔ (∀r.C))):true:6
+  - (((A ⊓ B) ⊔ (∀s.B)) ⊔ (∀s.(∀s.B))):true:6
+  - (¬(A ⊔ B) ⊓ ((∀r.A) ⊔ (∃s.C))):true:6
+  - ((¬B ⊓ (∀s.C)) ⊓ ((∀s.B) ⊔ C)):true:6
+  - (((A ⊓ B) ⊔ (B ⊔ C)) ⊓ ((∃r.B) ⊓ C)):true:6
+  - (((∀r.A) ⊔ (∀s.B)) ⊓ (∃r.(∀r.C))):true:6
+  - ((¬A ⊓ B) ⊓ (¬B ⊓ (B ⊓ C))):false:6
+  - ((A ⊓ ¬A) ⊓ ((A ⊔ B) ⊓ (∃s.B))):false:6
+  - ((¬A ⊓ C) ⊓ ((A ⊓ C) ⊔ ¬C)):false:6
+  - (((∃r.A) ⊓ ¬C) ⊓ (C ⊓ (∀r.C))):false:6
+  - (((B ⊔ C) ⊓ C) ⊓ (¬C ⊓ (∃s.C))):false:6
+  - (((∃r.B) ⊓ C) ⊓ ((∀r.B) ⊓ ¬C)):false:6
+  - (((A ⊓ C) ⊔ C) ⊓ ((∀r.A) ⊓ ¬C)):false:6
+  - ((B ⊓ ¬B) ⊓ ((∀s.B) ⊓ (∀s.C))):false:6
+  - ((B ⊓ ¬B) ⊓ ((∀r.B) ⊓ (∃s.C))):false:6
+  - ((¬B ⊓ (B ⊓ C)) ⊓ (C ⊔ (∃s.C))):false:6
+  - (¬(∀s.A) ⊓ ((B ⊓ C) ⊓ ¬C)):false:6
+  - (((A ⊓ C) ⊓ (∃s.B)) ⊓ ¬(A ⊔ C)):false:6
+  - (((∀s.A) ⊓ (∀s.B)) ⊓ (B ⊓ ¬B)):false:6
+  - (((A ⊔ B) ⊓ (∀r.⊤)) ⊔ ((A ⊔ ⊤) ⊔ (∀r.B))):true:7
+  - ((¬A ⊓ ¬⊤) ⊓ ((A ⊔ B) ⊔ (∃r.B))):false:7
+  - (((∃r.A) ⊓ (C ⊓ ⊥)) ⊔ (¬B ⊔ (B ⊓ ⊥))):true:7
+  - (((A ⊓ B) ⊔ (∀r.B)) ⊓ ((A ⊓ ⊥) ⊓ (∃s.⊥))):false:7
+  - (((B ⊓ C) ⊓ (B ⊔ ⊥)) ⊔ ((∀r.B) ⊓ (∃s.B))):true:7
+  - (((∀r.A) ⊔ (∃r.⊤)) ⊔ ((B ⊓ ⊥) ⊔ (∀r.⊤))):true:7
+  - ((¬B ⊔ (∀r.⊥)) ⊓ ((∀r.⊥) ⊓ (∀s.⊥))):true:7
+  - (((A ⊔ C) ⊔ (B ⊓ ⊥)) ⊓ ((B ⊔ C) ⊓ (∃r.C))):true:7
+  - (((A ⊔ ⊥) ⊓ (∃r.A)) ⊓ ((∃r.A) ⊓ (∃r.⊥))):true:7
+  - (((B ⊓ C) ⊓ (∀r.⊤)) ⊓ ((C ⊓ ⊤) ⊔ (∃r.⊥))):true:7
+  - (((A ⊔ ⊥) ⊔ (B ⊔ C)) ⊔ ((B ⊓ ⊤) ⊓ (∀r.⊥))):true:7
+  - (((A ⊓ C) ⊔ (∀s.C)) ⊓ ((C ⊓ ⊥) ⊓ (∀s.C))):false:7
+  - (((A ⊓ ⊤) ⊔ ¬B) ⊔ ((A ⊓ ⊥) ⊔ (∀s.C))):true:7
+  - (((A ⊔ C) ⊓ (∀r.C)) ⊔ ((∀s.A) ⊔ (∀s.⊤))):true:7
+  - (((A ⊓ C) ⊓ (∀s.C)) ⊓ ((C ⊓ ⊥) ⊔ (∀r.C))):true:7
+  - (((A ⊔ C) ⊔ (⊤ ⊔ ⊥)) ⊔ ((∀r.C) ⊔ (⊤ ⊓ ⊥))):true:7
+  - (((A ⊓ C) ⊓ (A ⊔ C)) ⊔ ((A ⊓ C) ⊓ (B ⊓ C))):true:7
+  - (((A ⊓ B) ⊓ (A ⊔ C)) ⊔ ((A ⊔ C) ⊓ ¬C)):true:7
+  - ((¬A ⊓ (B ⊓ C)) ⊔ (¬A ⊔ (∃r.B))):true:7
+  - (((A ⊔ C) ⊔ ¬B) ⊔ ((∃r.B) ⊔ (∃r.C))):true:7
+  - (((A ⊓ B) ⊔ (∃r.B)) ⊔ ((∃s.A) ⊓ (B ⊔ C))):true:7
+  - ((¬A ⊓ (∃s.A)) ⊓ (¬A ⊓ (∀s.A))):true:7
+  - ((¬A ⊓ (∀s.C)) ⊔ ((A ⊓ B) ⊔ ¬B)):true:7
+  - (((∃s.A) ⊓ (∀r.B)) ⊓ ((∀s.A) ⊔ (∀r.C))):true:7
+  - (((B ⊓ C) ⊓ (∃r.B)) ⊔ ((B ⊓ C) ⊓ (∀r.B))):true:7
+  - (((∀r.A) ⊓ (∀s.A)) ⊓ ((B ⊓ C) ⊔ (∀s.B))):true:7
+  - (((A ⊓ B) ⊓ (A ⊔ C)) ⊔ ((∀r.A) ⊔ (∀s.A))):true:7
+  - ((¬A ⊓ (∃r.C)) ⊓ ((∃s.A) ⊓ (∃r.B))):true:7
+  - ((¬A ⊓ (B ⊓ C)) ⊓ ((∃s.B) ⊓ ¬C)):false:7
+  - ((¬A ⊓ (B ⊓ C)) ⊓ (¬C ⊓ (∃s.C))):false:7
+  - ((¬A ⊓ ¬C) ⊓ ((A ⊓ C) ⊓ (∀r.C))):false:7
+  - ((¬A ⊓ (A ⊓ C)) ⊓ ((∃s.B) ⊔ (∃r.C))):false:7
+  - (((∃s.A) ⊓ ¬C) ⊓ (¬B ⊓ (B ⊔ C))):false:7
+  - ((¬A ⊓ (∃s.C)) ⊓ ((A ⊓ B) ⊓ (∀s.A))):false:7
+  - (((A ⊔ B) ⊓ ¬B) ⊓ ((B ⊓ C) ⊓ (∀r.C))):false:7
+  - (((A ⊓ B) ⊓ ¬B) ⊓ ((A ⊔ B) ⊓ ¬C)):false:7
+  - (((B ⊓ C) ⊓ ¬C) ⊓ ((∀r.B) ⊓ ¬C)):false:7
+  - ((¬A ⊓ (A ⊓ B)) ⊓ ((∀s.A) ⊓ (∀s.C))):false:7
+  - (((A ⊓ C) ⊓ (∃s.A)) ⊓ (¬B ⊓ ¬C)):false:7
+  - (((A ⊓ B) ⊔ (∀r.C)) ⊓ ((B ⊓ C) ⊓ ¬C)):false:7
+  - ((¬A ⊓ (∀s.A)) ⊓ ((A ⊓ B) ⊓ (B ⊔ C))):false:7
+  - ((¬A ⊓ (A ⊓ C)) ⊓ ((∀s.B) ⊔ (∀s.C))):false:7
+  - (((A ⊓ C) ⊔ (∀s.A)) ⊓ (¬B ⊓ (B ⊓ C))):false:7
+  - (((A ⊓ B) ⊓ (B ⊓ C)) ⊓ ((A ⊔ B) ⊓ ¬B)):false:7
+  - (((∃s.A) ⊓ ¬B) ⊓ ((B ⊓ C) ⊓ (B ⊔ C))):false:7
+  - ((¬A ⊓ (A ⊓ B)) ⊓ (¬A ⊔ (∀r.C))):false:7
+  - ((¬A ⊓ (B ⊔ C)) ⊓ ((A ⊓ C) ⊓ ¬C)):false:7
+  - (((A ⊓ B) ⊓ ¬B) ⊓ ((∃s.A) ⊔ (∀s.B))):false:7
+  - (((A ⊔ C) ⊓ ¬C) ⊓ (¬B ⊓ (B ⊓ C))):false:7
+  - (((A ⊓ B) ⊓ (A ⊔ C)) ⊓ ((B ⊔ C) ⊓ ¬C)):false:7

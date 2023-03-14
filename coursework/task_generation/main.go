@@ -80,19 +80,17 @@ func pickRandomTasks(options []interface{}, countSatisfiable int, countNonSatisf
 
 		if satisfiable && countSatisfiable > 0 {
 			result = append(result, Task{
-				Concept:     toString(pick),
+				Concept:     pick,
 				Satisfiable: satisfiable,
 				Complexity:  determineComplexity(pick),
-				C:           pick,
 			})
 			countSatisfiable -= 1
 			fmt.Println("chose satisfiable formula ", toString(pick))
 		} else if !satisfiable && countNonSatisfiable > 0 {
 			result = append(result, Task{
-				Concept:     toString(pick),
+				Concept:     pick,
 				Satisfiable: satisfiable,
 				Complexity:  determineComplexity(pick),
-				C:           pick,
 			})
 			countNonSatisfiable -= 1
 			fmt.Println("chose non-satisfiable formula ", toString(pick))
@@ -104,7 +102,7 @@ func pickRandomTasks(options []interface{}, countSatisfiable int, countNonSatisf
 
 func isFunctionallyEqualTaskContained(tasks []Task, concept interface{}) bool {
 	for _, task := range tasks {
-		if isFunctionallyEqual(concept, task.C) {
+		if isFunctionallyEqual(concept, task.Concept) {
 			return true
 		}
 	}

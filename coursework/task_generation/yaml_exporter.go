@@ -5,26 +5,22 @@ import (
 	"gopkg.in/yaml.v3"
 	"log"
 	"os"
+	"strconv"
 )
 
-func trimTasksForExport(tasks TaskList) TaskList {
-	var trimmedTasks []Task
+func convertToTasksForYaml(tasks TaskList) TaskListForYaml {
+	var rawTaskStrings []string
 	for _, task := range tasks.Tasks {
-		trimmedTask := Task{
-			Concept:     task.Concept,
-			Satisfiable: task.Satisfiable,
-			Complexity:  task.Complexity,
-			C:           nil,
-		}
-		trimmedTasks = append(trimmedTasks, trimmedTask)
+		rawTaskString := toString(task.Concept) + ":" + strconv.FormatBool(task.Satisfiable) + ":" + strconv.Itoa(task.Complexity)
+		rawTaskStrings = append(rawTaskStrings, rawTaskString)
 	}
-	return TaskList{Tasks: trimmedTasks}
+	return TaskListForYaml{Tasks: rawTaskStrings}
 }
 
 func exportAsYAML(tasks TaskList, filePath string) {
-	tasks = trimTasksForExport(tasks)
+	tasksForYaml := convertToTasksForYaml(tasks)
 
-	data, err := yaml.Marshal(tasks)
+	data, err := yaml.Marshal(tasksForYaml)
 
 	if err != nil {
 		log.Fatal(err)
