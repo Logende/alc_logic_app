@@ -102,11 +102,12 @@ class WidgetMainAnswersState extends ConsumerState<WidgetMainAnswers> {
   void onPressedNextTask() {
     var gameState = ref.watch(gameStateProvider);
     var availableTasks = ref.watch(tasksProvider);
+    var userStats = ref.watch(userStatisticsProvider);
     var gameStateNotifier = ref.watch(gameStateProvider.notifier);
     var userStatisticsNotifier = ref.watch(userStatisticsProvider.notifier);
 
     gameStateNotifier.setShowSolution(false);
-    gameStateNotifier.replaceTask(selectTask(gameState, availableTasks));
+    gameStateNotifier.replaceTask(selectTask(gameState, availableTasks, userStats));
 
     userStatisticsNotifier.addUserAttempt(gameState);
     ref.watch(timerProvider.notifier).resetTimer();
