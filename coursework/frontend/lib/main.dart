@@ -1,23 +1,17 @@
-import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/providers.dart';
 import 'package:frontend/router.dart';
-import 'package:frontend/screens/screen_main.dart';
-
-import 'firebase_options.dart';
 
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  FirebaseUIAuth.configureProviders([
-    EmailAuthProvider(),
-  ]);
+  //FirebaseUIAuth.configureProviders([
+  //  EmailAuthProvider(),
+  //]);
 
   runApp(const ProviderScope(
     child: MyApp(),
