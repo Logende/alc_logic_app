@@ -47,17 +47,56 @@ class _ScreenUserGuideState extends ConsumerState<ScreenUserGuide> {
         ),
         body: SingleChildScrollView(
           child: Html(
-            data: """<div>
-        <h1>Demo Page</h1>
-        <p>This is a fantastic product that you should buy!</p>
-        <h3>Features</h3>
-        <ul>
-          <li>It actually works</li>
-          <li>It exists</li>
-          <li>It doesn't cost much!</li>
-        </ul>
-        <!--You can pretty much put any html in here!-->
-      </div>""",
+            data: """<h1>How to Play?</h1>
+
+<p>&nbsp;</p>
+
+<p>This game is based on <strong>ALC description logic</strong>, which is more expressive than propositional logic but less expressive than first order logic.</p>
+
+<p>It will present you the description of a <em>Concept&nbsp;</em>and you have to answer whether it is satisfiable (thumbs up) or not satisfiable (thumbs down).</p>
+
+<p>SCREENSHOT_TODO</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<p>There are <em>Concepts</em> and <em>Interpretations</em>. <em>Concepts&nbsp;</em>are interpreted as a set of objects. An example&nbsp;<strong><em>concept</em></strong>&nbsp;could be <strong>Animal</strong> and the <strong>interpretation</strong> of Animal would be a set of object instances.</p>
+
+<blockquote>
+<p>Concept: Animal</p>
+
+<p>Example Interpretation Animal<sup>I</sup>&nbsp;={ cat_peter, dog_good_boy, lizard_lily, eagle_jason }</p>
+</blockquote>
+
+<p><em>Concepts</em>&nbsp;have a name, like in our example the name Animal, or we could also have a&nbsp;<em>concept</em>&nbsp;named Dog or Carnivore or Human or anything else.</p>
+
+<p>&nbsp;</p>
+
+<p>A&nbsp;<strong><em>Concept</em></strong>&nbsp;can also be <strong>defined in relation to other <em>concepts</em></strong>, such as</p>
+
+<blockquote>
+<p>Dog&nbsp;&equiv; Animal&nbsp;⊓ Carnivore</p>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<p><em>Concepts</em>&nbsp;either are <strong><em>satisfiable</em></strong> or they are not. The&nbsp;<em>concept</em>&nbsp;<strong>Dog </strong>is satisfiable, because we could create an object instance that is both in the set of all Animals and in the set of all Carnivores. The <em>concept</em>&nbsp;<strong>VegetarianDog &equiv; Dog ⊓ </strong>(&not;<strong>Carnivore)</strong>&nbsp;is, however, not satisfiable because it is impossible for an object instance to be both in the set of all carnivores as well as in the set of non-carnivores.</p>
+
+<blockquote>
+<p>Animal&nbsp;⊓ Carnivore &nbsp; &nbsp; &nbsp; &nbsp;is satisfiable</p>
+
+<p>VegetarianDog &equiv; Dog ⊓ (&not;Carnivore)&nbsp;&equiv;&nbsp;Animal&nbsp;⊓ Carnivore&nbsp;⊓ (&not;Carnivore) &nbsp; &nbsp; &nbsp; &nbsp;is not satisfiable</p>
+</blockquote>
+
+<p>So, in a nutshell, if there is any conflict within the <em>concept</em> and it is impossible to find an object instance that satisfies all parts of the&nbsp;<em>concept</em><em>&nbsp;</em>definition simultaneously, than the&nbsp;<em>concept</em> is not satisfiable.</p>
+
+<p>&nbsp;</p>
+
+<p><strong>Equivalences:</strong></p>
+
+<p>TODOSCREENSHOT</p>
+""",
           ),
         ));
   }
