@@ -5,11 +5,21 @@
 <h3>{{.Die1}}</h3>
 <h3>{{.Die2}}</h3>
 
-<button class="favorite styled"
-        type="button"
-        onClick="rollDice()">
-    Add to favorites
-</button>
+
+
+<form action="/task" method="post">
+    Concept:<input type="text" name="concept">
+    Satisfiable:<input type="text" name="satisfiable">
+    Complexity:<input type="text" name="complexity">
+    <input type="submit" value="Add Task">
+</form>
+
+
+<form action="/task" method="delete">
+    ID:<input type="text" name="id">
+    <input type="submit" value="Delete Task">
+</form>
+
 
 </body>
 </html>

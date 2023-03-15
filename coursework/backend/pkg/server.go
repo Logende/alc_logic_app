@@ -47,6 +47,10 @@ func (p *UserServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		p.handleRequestTasks(w, r)
 		break
 
+	case firstPart == "task" && length == 2:
+		p.handleRequestTask(w, r)
+		break
+
 	case firstPart == "admin" && length == 1:
 		p.handleRequestAdminPanel(w, r)
 		break
@@ -84,6 +88,31 @@ func (p *UserServer) handleRequestUser(w http.ResponseWriter, r *http.Request, n
 func (p *UserServer) handleRequestTasks(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodPost:
+		// TODO
+		break
+
+	case http.MethodGet:
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		encoder := json.NewEncoder(w)
+		tasks := p.StoreTasks.GetTasks()
+		_ = encoder.Encode(tasks)
+		break
+
+	default:
+		http.NotFound(w, r)
+		break
+	}
+}
+
+func (p *UserServer) handleRequestTask(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodPost:
+		// TODO
+		break
+
+	case http.MethodDelete:
 		// TODO
 		break
 
