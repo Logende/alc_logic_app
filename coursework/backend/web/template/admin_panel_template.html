@@ -1,0 +1,29 @@
+<html>
+<head>
+</head>
+<body>
+<h3>{{.Die1}}</h3>
+<h3>{{.Die2}}</h3>
+
+<button class="favorite styled"
+        type="button"
+        onClick="rollDice()">
+    Add to favorites
+</button>
+
+</body>
+</html>
+
+<script>
+    function rollDice() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                alert(this.responseText);
+            }
+        };
+        xhttp.open("POST", window.location.href, true);
+        xhttp.setRequestHeader("Content-type", "application/http");
+        xhttp.send();
+    }
+</script>

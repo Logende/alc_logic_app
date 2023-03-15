@@ -2,6 +2,8 @@ package pkg
 
 import (
 	"encoding/json"
+	"fmt"
+	"html/template"
 	"net/http"
 	"strings"
 )
@@ -21,6 +23,11 @@ type UserServer struct {
 	StoreTasks TaskStore
 }
 
+type AdminPanelDisplayData struct {
+	Die1 int
+	Die2 int
+}
+
 func (p *UserServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	parts := strings.Split(r.URL.Path, "/")[1:]
 	firstPart := strings.ToLower(parts[0])
@@ -38,6 +45,10 @@ func (p *UserServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	case firstPart == "tasks" && length == 1:
 		p.handleRequestTasks(w, r)
+		break
+
+	case firstPart == "admin" && length == 1:
+		p.handleRequestAdminPanel(w, r)
 		break
 
 	default:
@@ -80,7 +91,44 @@ func (p *UserServer) handleRequestTasks(w http.ResponseWriter, r *http.Request) 
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(p.StoreTasks.GetTasks())
+		encoder := json.NewEncoder(w)
+		tasks := p.StoreTasks.GetTasks()
+		_ = encoder.Encode(tasks)
+		break
+
+	default:
+		http.NotFound(w, r)
+		break
+	}
+}
+
+func (p *UserServer) handleRequestAdminPanel(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodPost:
+		// TODO
+		break
+
+	case http.MethodGet:
+
+		w.Header().Set("Content-Type", "text/html")
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+
+		t, err := template.ParseFiles("web/template/admin_panel_template.html")
+		if err != nil {
+			fmt.Fprintf(w, "Unable to load template")
+		}
+
+		data := AdminPanelDisplayData{
+			Die1: 4,
+			Die2: 1,
+		}
+
+		err = t.Execute(w, data)
+		if err != nil {
+			fmt.Fprintf(w, "Unable to execute template")
+			return
+		}
+
 		break
 
 	default:
