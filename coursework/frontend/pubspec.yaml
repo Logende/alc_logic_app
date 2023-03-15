@@ -71,3 +71,5 @@ flutter:
 
   assets:
     - assets/default_tasks.yaml
+    - assets/user_guide_equivalences.png
+    - assets/user_guide_screenshot.png

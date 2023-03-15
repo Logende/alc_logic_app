@@ -55,7 +55,7 @@ class _ScreenUserGuideState extends ConsumerState<ScreenUserGuide> {
 
 <p>It will present you the description of a <em>Concept&nbsp;</em>and you have to answer whether it is satisfiable (thumbs up) or not satisfiable (thumbs down).</p>
 
-<p>SCREENSHOT_TODO</p>
+<p><img alt="" src="asset:assets/user_guide_screenshot.png" /></p>
 
 <p>&nbsp;</p>
 
@@ -93,9 +93,7 @@ class _ScreenUserGuideState extends ConsumerState<ScreenUserGuide> {
 
 <p>&nbsp;</p>
 
-<p><strong>Equivalences:</strong></p>
-
-<p>TODOSCREENSHOT</p>
+<p><img alt="" src="asset:assets/user_guide_equivalences.png" /></p>
 """,
           ),
         ));
