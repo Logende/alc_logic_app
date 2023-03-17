@@ -2,38 +2,38 @@
 <head>
 </head>
 <body>
-<h3>{{.Die1}}</h3>
-<h3>{{.Die2}}</h3>
 
 
 
 <form action="/task" method="post">
-    Concept:<input type="text" name="concept">
-    Satisfiable:<input type="text" name="satisfiable">
-    Complexity:<input type="text" name="complexity">
+    Concept:<input type="text" name="Concept" id="Concept" value="A">
+    Satisfiable:<input type="text" name="Satisfiable" id="Satisfiable" value="true">
+    Complexity:<input type="text" name="Complexity" id="Complexity" value="1">
     <input type="submit" value="Add Task">
 </form>
 
+<div class="items">
+    {{ range .Tasks }}
+    <li>
+        <strong>{{ .Concept }}</strong> -> Satisfiable: <strong>{{ .Satisfiable }}</strong>, Complexity: <strong>{{ .Complexity }}</strong>
+        <button class="favorite styled"
+                type="button"
+                onClick="deleteTask({{ . }})">
+            Delete
+        </button>
 
-<form action="/task" method="delete">
-    ID:<input type="text" name="id">
-    <input type="submit" value="Delete Task">
-</form>
+    </li>
+    {{ end }}
+    </div>
 
 
 </body>
 </html>
 
 <script>
-    function rollDice() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                alert(this.responseText);
-            }
-        };
-        xhttp.open("POST", window.location.href, true);
-        xhttp.setRequestHeader("Content-type", "application/http");
-        xhttp.send();
+    function deleteTask(task) {
+        fetch('/task/' + task,  {
+            method: 'DELETE'
+        })
     }
 </script>

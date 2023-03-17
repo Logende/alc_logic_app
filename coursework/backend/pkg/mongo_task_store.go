@@ -13,7 +13,7 @@ func NewMongoTaskStore(defaultTasks []Task, client *mongo.Client) *MongoTaskStor
 	collectionTasks := databaseAlcLogic.Collection("tasks")
 	count, err := collectionTasks.CountDocuments(context.TODO(), bson.D{})
 	if count == 0 || err != nil {
-		WriteTasksToDB(client, defaultTasks)
+		InsertTasksInDB(client, defaultTasks)
 	}
 
 	return &MongoTaskStore{client}
@@ -28,7 +28,7 @@ func (i *MongoTaskStore) GetTasks() []Task {
 }
 
 func (i *MongoTaskStore) UpdateTasks(tasks []Task) {
-	WriteTasksToDB(i.client, tasks)
+	UpdateTasksInDB(i.client, tasks)
 }
 
 func ReadTasksFromDB(client *mongo.Client) []Task {
@@ -55,7 +55,24 @@ func ReadTasksFromDB(client *mongo.Client) []Task {
 	return tasks
 }
 
-func WriteTasksToDB(client *mongo.Client, tasks []Task) {
+func UpdateTasksInDB(client *mongo.Client, tasks []Task) {
+	ClearTasksInDB(client)
+	InsertTasksInDB(client, tasks)
+}
+
+func ClearTasksInDB(client *mongo.Client) {
+	collection := client.Database("alc_logic").Collection("tasks")
+	many, err := collection.DeleteMany(context.TODO(), bson.D{})
+
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		fmt.Println("Removed tasks: ", many.DeletedCount)
+	}
+
+}
+
+func InsertTasksInDB(client *mongo.Client, tasks []Task) {
 	collection := client.Database("alc_logic").Collection("tasks")
 
 	elements := make([]interface{}, len(tasks))

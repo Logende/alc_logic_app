@@ -1,0 +1,33 @@
+<html>
+<head>
+</head>
+<body>
+
+
+
+Added Task!
+
+<input
+        action="action"
+        onclick="GoBackAndRefresh();return false;"
+        type="submit"
+        value="Go back"
+/>
+
+
+</body>
+</html>
+
+
+
+
+<script>
+    // taken from https://stackoverflow.com/questions/25639290/windows-history-back-location-reload-jquery
+    function GoBackAndRefresh() {
+    if ('referrer' in document) {
+        window.location = document.referrer;
+    } else {
+        window.history.back();
+    }
+}
+</script>

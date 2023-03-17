@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
@@ -24,8 +25,13 @@ type UserServer struct {
 }
 
 type AdminPanelDisplayData struct {
-	Die1 int
-	Die2 int
+	Die1  int
+	Die2  int
+	Tasks []Task
+}
+
+type TaskRemovableDisplayData struct {
+	task Task
 }
 
 func (p *UserServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -47,8 +53,8 @@ func (p *UserServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		p.handleRequestTasks(w, r)
 		break
 
-	case firstPart == "task" && length == 2:
-		p.handleRequestTask(w, r)
+	case firstPart == "task":
+		p.handleRequestTask(w, r, parts)
 		break
 
 	case firstPart == "admin" && length == 1:
@@ -88,7 +94,6 @@ func (p *UserServer) handleRequestUser(w http.ResponseWriter, r *http.Request, n
 func (p *UserServer) handleRequestTasks(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodPost:
-		// TODO
 		break
 
 	case http.MethodGet:
@@ -106,14 +111,76 @@ func (p *UserServer) handleRequestTasks(w http.ResponseWriter, r *http.Request) 
 	}
 }
 
-func (p *UserServer) handleRequestTask(w http.ResponseWriter, r *http.Request) {
+func (p *UserServer) handleRequestTask(w http.ResponseWriter, r *http.Request, parts []string) {
 	switch r.Method {
 	case http.MethodPost:
-		// TODO
+
+		err := r.ParseForm()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		var concept = r.Form.Get("Concept")
+		satisfiable, err := strconv.ParseBool(r.Form.Get("Satisfiable"))
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		complexity, err := strconv.Atoi(r.Form.Get("Complexity"))
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		var tasks = p.StoreTasks.GetTasks()
+		tasks = append(tasks, Task{
+			Concept:     concept,
+			Satisfiable: satisfiable,
+			Complexity:  complexity,
+		})
+		p.StoreTasks.UpdateTasks(tasks)
+
+		w.Header().Set("Content-Type", "text/html")
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		t, err := template.ParseFiles("web/template/added_task_template.html")
+		if err != nil {
+			fmt.Fprintf(w, "Unable to load template")
+		}
+
+		data := AdminPanelDisplayData{
+			Die1:  4,
+			Die2:  1,
+			Tasks: p.StoreTasks.GetTasks(),
+		}
+
+		err = t.Execute(w, data)
+		if err != nil {
+			fmt.Fprintf(w, "Unable to execute template")
+			return
+		}
 		break
 
 	case http.MethodDelete:
-		// TODO
+		requestedId := parts[1]
+
+		identifiedIndex := -1
+
+		for i, task := range p.StoreTasks.GetTasks() {
+			taskId := task.String()
+
+			if taskId == requestedId {
+				identifiedIndex = i
+				break
+			}
+		}
+
+		if identifiedIndex >= 0 {
+			tasks := p.StoreTasks.GetTasks()
+			tasks = append(tasks[:identifiedIndex], tasks[identifiedIndex+1:]...)
+			p.StoreTasks.UpdateTasks(tasks)
+		}
+
 		break
 
 	case http.MethodGet:
@@ -148,8 +215,9 @@ func (p *UserServer) handleRequestAdminPanel(w http.ResponseWriter, r *http.Requ
 		}
 
 		data := AdminPanelDisplayData{
-			Die1: 4,
-			Die2: 1,
+			Die1:  4,
+			Die2:  1,
+			Tasks: p.StoreTasks.GetTasks(),
 		}
 
 		err = t.Execute(w, data)
