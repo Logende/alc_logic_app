@@ -12,6 +12,7 @@ import (
 type UserStore interface {
 	UpdateUser(user UserProfile)
 	GetUser(name string) (UserProfile, bool)
+	GetUsers() []UserProfile
 }
 
 type TaskStore interface {
@@ -25,9 +26,11 @@ type UserServer struct {
 }
 
 type AdminPanelDisplayData struct {
-	Die1  int
-	Die2  int
 	Tasks []Task
+}
+
+type StatisticsPanelDisplayData struct {
+	Stats []TaskStatistics
 }
 
 type TaskRemovableDisplayData struct {
@@ -59,6 +62,10 @@ func (p *UserServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	case firstPart == "admin" && length == 1:
 		p.handleRequestAdminPanel(w, r)
+		break
+
+	case firstPart == "stats" && length == 1:
+		p.handleRequestStatisticsPanel(w, r)
 		break
 
 	default:
@@ -149,8 +156,6 @@ func (p *UserServer) handleRequestTask(w http.ResponseWriter, r *http.Request, p
 		}
 
 		data := AdminPanelDisplayData{
-			Die1:  4,
-			Die2:  1,
 			Tasks: p.StoreTasks.GetTasks(),
 		}
 
@@ -215,9 +220,50 @@ func (p *UserServer) handleRequestAdminPanel(w http.ResponseWriter, r *http.Requ
 		}
 
 		data := AdminPanelDisplayData{
-			Die1:  4,
-			Die2:  1,
 			Tasks: p.StoreTasks.GetTasks(),
+		}
+
+		err = t.Execute(w, data)
+		if err != nil {
+			fmt.Fprintf(w, "Unable to execute template")
+			return
+		}
+
+		break
+
+	default:
+		http.NotFound(w, r)
+		break
+	}
+}
+
+func (p *UserServer) handleRequestStatisticsPanel(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodPost:
+		// TODO
+		break
+
+	case http.MethodGet:
+
+		w.Header().Set("Content-Type", "text/html")
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+
+		t, err := template.ParseFiles("web/template/statistics_panel_template.html")
+		if err != nil {
+			fmt.Fprintf(w, "Unable to load template")
+		}
+
+		var stats []TaskStatistics
+		aggregated := AggregateTaskStatistics(p.StoreUsers.GetUsers())
+		for _, task := range p.StoreTasks.GetTasks() {
+			value, exists := aggregated[task.String()]
+			if exists {
+				stats = append(stats, value)
+			}
+		}
+
+		data := StatisticsPanelDisplayData{
+			Stats: stats,
 		}
 
 		err = t.Execute(w, data)

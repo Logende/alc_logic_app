@@ -1,0 +1,27 @@
+<html>
+<head>
+</head>
+<body>
+
+
+
+
+<div class="items">
+    {{ range .Stats }}
+    <li>
+        <pre>
+            <strong>{{ .Task.Concept }}</strong>
+            Successful/Total attempts: {{ .Successes }}/{{ .Attempts }}
+            Total attempt duration: {{ .TotalTimeNeeded }}
+        </pre>
+    </li>
+    {{ end }}
+    </div>
+
+
+</body>
+</html>
+
+<script>
+
+</script>

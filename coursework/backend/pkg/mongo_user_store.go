@@ -20,6 +20,10 @@ func (i *MongoUserStore) GetUser(name string) (UserProfile, bool) {
 	return ReadUserFromDB(i.client, name)
 }
 
+func (i *MongoUserStore) GetUsers() []UserProfile {
+	return ReadUsersFromDB(i.client)
+}
+
 func (i *MongoUserStore) UpdateUser(user UserProfile) {
 	UpdateUserInDB(i.client, user)
 }
@@ -48,6 +52,30 @@ func ReadUserFromDB(client *mongo.Client, name string) (UserProfile, bool) {
 
 	return UserProfile{}, false
 
+}
+
+func ReadUsersFromDB(client *mongo.Client) []UserProfile {
+	var users []UserProfile
+
+	collection := client.Database("alc_logic").Collection("users")
+	cursor, err := collection.Find(context.TODO(), bson.D{})
+	if err != nil {
+		panic(err)
+	}
+
+	for cursor.Next(context.TODO()) {
+		var result UserProfile
+		err := cursor.Decode(&result)
+
+		if err != nil {
+			panic(err)
+		}
+
+		users = append(users, result)
+
+	}
+
+	return users
 }
 
 func UpdateUserInDB(client *mongo.Client, user UserProfile) {
