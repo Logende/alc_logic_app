@@ -55,16 +55,16 @@ class TaskStatistics {
   }
 
   TaskStatistics.fromMap(Map<String, dynamic> json)
-      : attempts = json['attempts'],
-        successes = json['successes'],
-        totalTimeNeeded = json['totalTimeNeeded'],
-        task = Task.fromString(json['task']);
+      : attempts = json['Attempts'],
+        successes = json['Successes'],
+        totalTimeNeeded = json['TotalTimeNeeded'],
+        task = Task.fromJson(json['Task']);
 
   Map<String, dynamic> toMap() => {
-        'attempts': attempts,
-        'successes': successes,
-        'totalTimeNeeded': totalTimeNeeded,
-        'task': task.toString()
+        'Attempts': attempts,
+        'Successes': successes,
+        'TotalTimeNeeded': totalTimeNeeded,
+        'Task': task.toMap()
       };
 }
 
@@ -76,14 +76,14 @@ class UserStatistics {
   final bool loaded;
 
   UserStatistics.fromMap(Map<String, dynamic> json)
-      : tasksStatistics = (json['tasksStatistics'] as Map<String, dynamic>)
+      : tasksStatistics = (json['TasksStatistics'] as Map<String, dynamic>)
             .map((key, value) => MapEntry(key, TaskStatistics.fromMap(value))),
-        loaded = json['loaded'];
+        loaded = json['Loaded'];
 
   Map<String, dynamic> toMap() => {
-        'tasksStatistics':
+        'TasksStatistics':
             tasksStatistics.map((key, value) => MapEntry(key, value.toMap())),
-        'loaded': loaded
+        'Loaded': loaded
       };
 
   UserStatistics _addUserAttempt(GameState gameState) {

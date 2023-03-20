@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:frontend/handlers/handler_statistics_sender.dart';
 import 'package:frontend/handlers/handler_task_loader.dart';
 import 'package:frontend/models/model_user_statistics.dart';
 import 'package:shared_preferences/shared_preferences.dart';

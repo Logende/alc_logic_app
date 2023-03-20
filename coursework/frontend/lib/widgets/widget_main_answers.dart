@@ -7,6 +7,8 @@ import 'package:frontend/handlers/handler_task_selector.dart';
 import 'package:frontend/models/model_game_state.dart';
 import 'package:frontend/providers.dart';
 
+import '../handlers/handler_statistics_sender.dart';
+
 class WidgetMainAnswers extends ConsumerStatefulWidget {
   const WidgetMainAnswers({super.key, required this.ref});
 
@@ -112,5 +114,6 @@ class WidgetMainAnswersState extends ConsumerState<WidgetMainAnswers> {
     userStatisticsNotifier.addUserAttempt(gameState);
     ref.watch(timerProvider.notifier).resetTimer();
     persistUserStatistics(ref.watch(userStatisticsProvider));
+    sendStatisticsToBackend(ref);
   }
 }

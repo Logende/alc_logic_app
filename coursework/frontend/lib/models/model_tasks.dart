@@ -35,6 +35,12 @@ class Task {
       : concept = definition['Concept'],
         satisfiable = definition['Satisfiable'],
         complexity = definition['Complexity'];
+
+  Map<String, dynamic> toMap() => {
+    'Concept': concept,
+    'Satisfiable': satisfiable,
+    'Complexity': complexity
+  };
 }
 
 @immutable
