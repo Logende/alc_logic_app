@@ -29,28 +29,15 @@ func (i *MongoUserStore) UpdateUser(user UserProfile) {
 }
 
 func ReadUserFromDB(client *mongo.Client, name string) (UserProfile, bool) {
-
 	collection := client.Database("alc_logic").Collection("users")
-	cursor, err := collection.Find(context.TODO(), bson.M{"Name": name})
+	filter := bson.D{{"name", name}}
+	var result UserProfile
+	err := collection.FindOne(context.TODO(), filter).Decode(&result)
 	if err != nil {
 		fmt.Println(err)
 		return UserProfile{}, false
 	}
-
-	for cursor.Next(context.TODO()) {
-		var result UserProfile
-		err = cursor.Decode(&result)
-
-		if err != nil {
-			fmt.Println(err)
-			return UserProfile{}, false
-		}
-
-		return result, true
-
-	}
-
-	return UserProfile{}, false
+	return result, true
 
 }
 
@@ -79,6 +66,11 @@ func ReadUsersFromDB(client *mongo.Client) []UserProfile {
 }
 
 func UpdateUserInDB(client *mongo.Client, user UserProfile) {
+	DeleteUserFromInDB(client, user)
+	InsertUserInDB(client, user)
+}
+
+func InsertUserInDB(client *mongo.Client, user UserProfile) {
 	collection := client.Database("alc_logic").Collection("users")
 
 	insertResult, err := collection.InsertOne(context.TODO(), user)
@@ -86,6 +78,17 @@ func UpdateUserInDB(client *mongo.Client, user UserProfile) {
 		log.Fatal(err)
 	} else {
 		fmt.Println("Inserted user: ", insertResult.InsertedID)
+	}
+
+}
+func DeleteUserFromInDB(client *mongo.Client, user UserProfile) {
+	collection := client.Database("alc_logic").Collection("users")
+
+	result, err := collection.DeleteOne(context.TODO(), bson.M{"name": user.Name})
+	if err != nil {
+		log.Fatal(err)
+	} else {
+		fmt.Println("Deleted users: ", result.DeletedCount)
 	}
 
 }

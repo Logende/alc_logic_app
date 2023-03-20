@@ -52,6 +52,10 @@ func (p *UserServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		p.handleRequestUser(w, r, parts[1])
 		break
 
+	case firstPart == "users" && length == 1:
+		p.handleRequestUsers(w, r)
+		break
+
 	case firstPart == "tasks" && length == 1:
 		p.handleRequestTasks(w, r)
 		break
@@ -77,19 +81,63 @@ func (p *UserServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func (p *UserServer) handleRequestUser(w http.ResponseWriter, r *http.Request, name string) {
 	switch r.Method {
 	case http.MethodPut:
-		// TODO
+
+		r.Body = http.MaxBytesReader(w, r.Body, 1048576)
+		dec := json.NewDecoder(r.Body)
+		dec.DisallowUnknownFields()
+
+		var prof UserProfileForJson
+		err := dec.Decode(&prof)
+		newUser := prof.convertToUserProfile()
+
+		if newUser.Name != name {
+			http.Error(w, "Invalid request: user names do not match.", http.StatusBadRequest)
+			break
+		}
+
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			break
+		}
+
+		user, ok := p.StoreUsers.GetUser(name)
+		if !ok {
+
+			// user does not exist yet -> just accept the new user
+			p.StoreUsers.UpdateUser(newUser)
+
+		} else {
+
+			if newUser.PasswordHash == user.PasswordHash {
+				p.StoreUsers.UpdateUser(newUser)
+
+				w.Header().Set("Content-Type", "application/json")
+				w.WriteHeader(http.StatusOK)
+				json.NewEncoder(w).Encode(newUser)
+			} else {
+				http.Error(w, "Invalid password", 401)
+			}
+
+		}
 		break
 
 	case http.MethodGet:
 
-		user, ok := p.StoreUsers.GetUser(name)
+		/*user, ok := p.StoreUsers.GetUser(name)
 		if !ok {
 			http.NotFound(w, r)
 		} else {
-			w.Header().Set("Content-Type", "application/json")
-			w.WriteHeader(http.StatusOK)
-			json.NewEncoder(w).Encode(user)
-		}
+			password_hash := r.Form.Get("password_hash")
+
+			if password_hash == user.PasswordHash {
+				w.Header().Set("Content-Type", "application/json")
+				w.WriteHeader(http.StatusOK)
+				json.NewEncoder(w).Encode(user)
+			} else {
+				http.Error(w, "Invalid password", 401)
+			}
+
+		}*/
 		break
 
 	default:
@@ -110,6 +158,26 @@ func (p *UserServer) handleRequestTasks(w http.ResponseWriter, r *http.Request) 
 		encoder := json.NewEncoder(w)
 		tasks := p.StoreTasks.GetTasks()
 		_ = encoder.Encode(tasks)
+		break
+
+	default:
+		http.NotFound(w, r)
+		break
+	}
+}
+
+func (p *UserServer) handleRequestUsers(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodPost:
+		break
+
+	case http.MethodGet:
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		encoder := json.NewEncoder(w)
+		users := p.StoreUsers.GetUsers()
+		_ = encoder.Encode(users)
 		break
 
 	default:

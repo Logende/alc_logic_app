@@ -13,7 +13,7 @@ type Task struct {
 }
 
 func (task Task) String() string {
-	return fmt.Sprintf("%s%t%d", task.Concept, task.Satisfiable, task.Complexity)
+	return fmt.Sprintf("%s:%t:%d", task.Concept, task.Satisfiable, task.Complexity)
 }
 
 func NewTask(definition string) Task {

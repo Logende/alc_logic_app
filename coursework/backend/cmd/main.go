@@ -4,7 +4,6 @@ import (
 	"backend/pkg"
 	"context"
 	"fmt"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
@@ -42,7 +41,6 @@ func main() {
 	tasks := taskDefinitions.ReadTasks()
 
 	exampleUser := pkg.UserProfile{
-		ID:              primitive.ObjectID{},
 		Name:            "someName",
 		PasswordHash:    "werwer",
 		TasksStatistics: map[string]pkg.TaskStatistics{},

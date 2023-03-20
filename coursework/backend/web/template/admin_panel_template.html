@@ -18,7 +18,7 @@
         <strong>{{ .Concept }}</strong> -> Satisfiable: <strong>{{ .Satisfiable }}</strong>, Complexity: <strong>{{ .Complexity }}</strong>
         <button class="favorite styled"
                 type="button"
-                onClick="deleteTask({{ . }})">
+                onClick="deleteTask({{ .Concept }}, {{ .Satisfiable }}, {{ .Complexity }})">
             Delete
         </button>
 
@@ -31,8 +31,8 @@
 </html>
 
 <script>
-    function deleteTask(task) {
-        fetch('/task/' + task,  {
+    function deleteTask(concept, satisfiable, complexity) {
+        fetch('/task/' + concept + ":" + satisfiable + ":" + complexity,  {
             method: 'DELETE'
         })
     }
