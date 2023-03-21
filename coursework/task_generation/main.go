@@ -7,14 +7,23 @@ import (
 
 func main() {
 
+	// number of basic concepts like A, B, C, D, E to use for task generation
 	nBasicConcepts := 3
+
+	// number of roles to use for task generation
 	nRoles := 2
 
+	// use algorithm generateConceptsA to generate complex concepts based on the given input.
+	// the algorithm will take all concepts it currently has and apply all the different operators (negation, union,
+	// intersection, quantifiers) on them. For binary operators, it will combine two of the existing concepts.
+	// This is repeated nLevels times. With every iteration, the resulting concepts get more complex and longer.
 	concepts := generateConceptsA(nBasicConcepts, nRoles, 4)
 	fmt.Println("concept count: ", len(concepts))
 
+	// group concepts by complexity (i.e. operator count)
 	conceptsByComplexity := groupConceptsByComplexity(concepts)
 
+	// definition of how many concepts we would like to pick for a given complexity
 	desiredCounts := []int{
 		2, // complexity 0 -> just one base concept such as A or bottom or top
 		5, // complexity 1 -> concepts such as neg(A) or A AND B or EXISTS ROLE R for BOTTOM
@@ -32,15 +41,17 @@ func main() {
 	var chosenTasks []Task
 	for complexity, count := range desiredCounts {
 		options := conceptsByComplexity[complexity]
+
+		// when choosing tasks: how do we want them to be like?
+		// half of them should be satisfiable
 		countSatisfiable := count / 2
+		// the rest should be non-satisfiable
 		countNonSatisfiable := count/2 + count%2
+		// we limit the amount of concepts that include top or bottom to one third
 		maxCountWithTopBottom := count / 3
 		chosenTasks = append(chosenTasks, pickRandomTasks(options, countSatisfiable, countNonSatisfiable,
 			maxCountWithTopBottom)...)
 	}
-
-	// for every desiredCounts elements, pick random object of index complexity
-	// check if concept is satisfiable. Keep searching until half of desired elements is satisfiable and other half is not
 
 	println(chosenTasks)
 	println(conceptsByComplexity)
