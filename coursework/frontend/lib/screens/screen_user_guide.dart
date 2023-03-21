@@ -53,7 +53,7 @@ class _ScreenUserGuideState extends ConsumerState<ScreenUserGuide> {
 
 <p>This game is based on <strong>ALC description logic</strong>, which is more expressive than propositional logic but less expressive than first order logic.</p>
 
-<p>It will present you the description of a <em>Concept&nbsp;</em>and you have to answer whether it is satisfiable (thumbs up) or not satisfiable (thumbs down).</p>
+<p>It will present you the description of a <em>Concept&nbsp;</em>and you have to judge whether it is satisfiable (thumbs up) or not satisfiable (thumbs down).</p>
 
 <p><img alt="" src="asset:assets/user_guide_screenshot.png" /></p>
 

@@ -44,7 +44,7 @@ func (p *UserServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	switch {
 	case firstPart == "" && length == 1:
-		// TODO: main page
+		p.handleRequestAdminPanel(w, r)
 
 		break
 
@@ -81,7 +81,6 @@ func (p *UserServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func (p *UserServer) handleRequestUser(w http.ResponseWriter, r *http.Request, name string) {
 	switch r.Method {
 	case http.MethodPut:
-
 		r.Body = http.MaxBytesReader(w, r.Body, 1048576)
 		dec := json.NewDecoder(r.Body)
 		dec.DisallowUnknownFields()
@@ -123,13 +122,14 @@ func (p *UserServer) handleRequestUser(w http.ResponseWriter, r *http.Request, n
 
 	case http.MethodGet:
 
-		/*user, ok := p.StoreUsers.GetUser(name)
+		user, ok := p.StoreUsers.GetUser(name)
 		if !ok {
 			http.NotFound(w, r)
 		} else {
-			password_hash := r.Form.Get("password_hash")
 
-			if password_hash == user.PasswordHash {
+			passwordHash := r.URL.Query().Get("password_hash")
+
+			if passwordHash == user.PasswordHash {
 				w.Header().Set("Content-Type", "application/json")
 				w.WriteHeader(http.StatusOK)
 				json.NewEncoder(w).Encode(user)
@@ -137,27 +137,7 @@ func (p *UserServer) handleRequestUser(w http.ResponseWriter, r *http.Request, n
 				http.Error(w, "Invalid password", 401)
 			}
 
-		}*/
-		break
-
-	default:
-		http.NotFound(w, r)
-		break
-	}
-}
-
-func (p *UserServer) handleRequestTasks(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case http.MethodPost:
-		break
-
-	case http.MethodGet:
-
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-		encoder := json.NewEncoder(w)
-		tasks := p.StoreTasks.GetTasks()
-		_ = encoder.Encode(tasks)
+		}
 		break
 
 	default:
@@ -257,6 +237,23 @@ func (p *UserServer) handleRequestTask(w http.ResponseWriter, r *http.Request, p
 		break
 
 	case http.MethodGet:
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		encoder := json.NewEncoder(w)
+		tasks := p.StoreTasks.GetTasks()
+		_ = encoder.Encode(tasks)
+		break
+
+	default:
+		http.NotFound(w, r)
+		break
+	}
+}
+
+func (p *UserServer) handleRequestTasks(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+
+	case http.MethodGet:
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
@@ -273,10 +270,6 @@ func (p *UserServer) handleRequestTask(w http.ResponseWriter, r *http.Request, p
 
 func (p *UserServer) handleRequestAdminPanel(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
-	case http.MethodPost:
-		// TODO
-		break
-
 	case http.MethodGet:
 
 		w.Header().Set("Content-Type", "text/html")
@@ -307,10 +300,6 @@ func (p *UserServer) handleRequestAdminPanel(w http.ResponseWriter, r *http.Requ
 
 func (p *UserServer) handleRequestStatisticsPanel(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
-	case http.MethodPost:
-		// TODO
-		break
-
 	case http.MethodGet:
 
 		w.Header().Set("Content-Type", "text/html")
