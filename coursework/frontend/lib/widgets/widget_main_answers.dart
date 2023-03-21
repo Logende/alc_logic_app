@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/handlers/handler_data_persistence.dart';
@@ -109,7 +107,8 @@ class WidgetMainAnswersState extends ConsumerState<WidgetMainAnswers> {
     var userStatisticsNotifier = ref.watch(userStatisticsProvider.notifier);
 
     gameStateNotifier.setShowSolution(false);
-    gameStateNotifier.replaceTask(selectTask(gameState, availableTasks, userStats));
+    gameStateNotifier
+        .replaceTask(selectTask(gameState, availableTasks, userStats));
 
     userStatisticsNotifier.addUserAttempt(gameState);
     ref.watch(timerProvider.notifier).resetTimer();

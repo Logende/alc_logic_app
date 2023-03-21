@@ -8,8 +8,6 @@ import 'package:go_router/go_router.dart';
 final _key = GlobalKey<NavigatorState>();
 
 final routerProvider = Provider<GoRouter>((ref) {
-
-
   return GoRouter(
     navigatorKey: _key,
     debugLogDiagnostics: true,
@@ -19,10 +17,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: ScreenMain.routeLocation,
         name: ScreenMain.routeName,
         builder: (context, state) {
-         // if (FirebaseAuth.instance.currentUser != null) {
-            return const ScreenMain();
+          // if (FirebaseAuth.instance.currentUser != null) {
+          return const ScreenMain();
           //} else {
-           // return createSignInScreen();
+          // return createSignInScreen();
           //}
         },
       ),
@@ -33,8 +31,6 @@ final routerProvider = Provider<GoRouter>((ref) {
           return const ScreenStatistics();
         },
       ),
-
-
       GoRoute(
         path: ScreenUserGuide.routeLocation,
         name: ScreenUserGuide.routeName,
@@ -42,8 +38,6 @@ final routerProvider = Provider<GoRouter>((ref) {
           return const ScreenUserGuide();
         },
       ),
-
-
     ],
     redirect: (context, state) {
       ScreenMain.routeLocation;
@@ -51,5 +45,3 @@ final routerProvider = Provider<GoRouter>((ref) {
     },
   );
 });
-
-

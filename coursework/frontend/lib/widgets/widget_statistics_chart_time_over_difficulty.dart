@@ -3,13 +3,13 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/providers.dart';
 
 import '../models/model_user_statistics_aggregated.dart';
 
 // copied and modified from https://github.com/imaNNeoFighT/fl_chart/blob/master/example/lib/line_chart/samples/line_chart_sample9.dart#L102
 class LineChartTimeOverDifficulty extends ConsumerStatefulWidget {
-  const LineChartTimeOverDifficulty({super.key, required this.ref, required this.stats});
+  const LineChartTimeOverDifficulty(
+      {super.key, required this.ref, required this.stats});
 
   final WidgetRef ref;
   final UserStatisticsAggregated stats;
@@ -43,10 +43,8 @@ class LineChartTimeOverDifficultyState
   Widget build(BuildContext context) {
     var stats = widget.stats;
 
-    final spots = List.generate(
-        stats.difficulties.length,
-        (i) => FlSpot(
-            i.toDouble(), stats.averageTimeNeeded[i]!));
+    final spots = List.generate(stats.difficulties.length,
+        (i) => FlSpot(i.toDouble(), stats.averageTimeNeeded[i]!));
 
     return Column(
       mainAxisSize: MainAxisSize.min,

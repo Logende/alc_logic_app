@@ -1,9 +1,4 @@
-import 'dart:math';
-
-import 'package:frontend/models/model_game_state.dart';
 import 'package:intl/intl.dart';
-
-import '../models/model_tasks.dart';
 
 String formatTimeTimer(double time) {
   var dateTime = DateTime.fromMillisecondsSinceEpoch((time * 1000).toInt());

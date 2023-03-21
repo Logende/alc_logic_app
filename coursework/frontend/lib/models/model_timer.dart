@@ -16,16 +16,12 @@ TimerModel _createDefaultTimerModel() {
 
 @immutable
 class TimerModel {
-  const TimerModel(
-      {this.timer, required this.timerValue});
+  const TimerModel({this.timer, required this.timerValue});
 
   final Timer? timer;
   final double timerValue;
 
-
-  TimerModel _copyWith(
-      {Timer? timer,
-      double? timerValue}) {
+  TimerModel _copyWith({Timer? timer, double? timerValue}) {
     return TimerModel(
       timer: timer ?? this.timer,
       timerValue: timerValue ?? this.timerValue,
@@ -38,8 +34,7 @@ class TimerModel {
 
   TimerModel _resetTime(TimerModelNotifier notifier) {
     timer?.cancel();
-    return _copyWith(
-        timerValue: 0.0, timer: _createTimer(notifier));
+    return _copyWith(timerValue: 0.0, timer: _createTimer(notifier));
   }
 
   TimerModel _stopTime() {
@@ -49,10 +44,8 @@ class TimerModel {
 
   TimerModel _continueTime(TimerModelNotifier notifier) {
     timer?.cancel();
-    return _copyWith(
-       timer: _createTimer(notifier));
+    return _copyWith(timer: _createTimer(notifier));
   }
-
 }
 
 class TimerModelNotifier extends StateNotifier<TimerModel> {

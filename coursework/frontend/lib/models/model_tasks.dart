@@ -37,10 +37,10 @@ class Task {
         complexity = definition['Complexity'];
 
   Map<String, dynamic> toMap() => {
-    'Concept': concept,
-    'Satisfiable': satisfiable,
-    'Complexity': complexity
-  };
+        'Concept': concept,
+        'Satisfiable': satisfiable,
+        'Complexity': complexity
+      };
 }
 
 @immutable
@@ -69,7 +69,6 @@ class TaskListNotifier extends StateNotifier<TaskList> {
     // try to fetch tasks from backend and if it succeeds, update tasks with them
     fetchTasksFromBackend().then((value) => updateTasks(value, true));
     print("fetched taks from backend, now having ${state.tasks.length}");
-
   }
 
   bool isLoaded() {

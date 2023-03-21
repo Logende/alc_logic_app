@@ -42,7 +42,7 @@ dependencies:
   yaml: ^3.1.1
   auto_size_text: ^3.0.0
   shared_preferences: ^2.0.15
-  intl: ^0.17.0
+  flh: ^0.17.0
   fl_chart: ^0.55.2
   http: ^0.13.5
   flutter_html: ^2.2.1

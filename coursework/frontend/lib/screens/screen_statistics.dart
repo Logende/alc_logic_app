@@ -1,25 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/handlers/handler_task_loader.dart';
 import 'package:frontend/handlers/handlers_time_formatter.dart';
 import 'package:frontend/models/model_user_statistics_aggregated.dart';
-import 'package:frontend/router.dart';
 import 'package:frontend/screens/screen_main.dart';
-import 'package:frontend/widgets/widget_main_answers.dart';
-import 'package:frontend/widgets/widget_main_task.dart';
-import 'package:frontend/widgets/widget_main_timer.dart';
 import 'package:frontend/widgets/widget_statistics_chart_success_over_difficulty.dart';
 import 'package:frontend/widgets/widget_statistics_chart_time_over_difficulty.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/date_symbol_data_file.dart';
 
-import '../models/model_game_state.dart';
 import '../providers.dart';
 
 class ScreenStatistics extends ConsumerStatefulWidget {
   const ScreenStatistics({super.key});
 
   static String get routeName => 'statistics';
+
   static String get routeLocation => '/statistics';
 
   final String title = "Statistics";
@@ -49,7 +43,8 @@ class _ScreenStatisticsState extends ConsumerState<ScreenStatistics> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("Total Time Played: ${formatTimePlaytime(statsAggregated.totalTimePlayed)}",
+              Text(
+                  "Total Time Played: ${formatTimePlaytime(statsAggregated.totalTimePlayed)}",
                   style: Theme.of(context).textTheme.headlineSmall),
               Text(
                   "Average Time/Task: ${formatTimePlaytime(statsAggregated.averageTimePerTask)}",
@@ -63,7 +58,6 @@ class _ScreenStatisticsState extends ConsumerState<ScreenStatistics> {
               BarChartSuccessOverDifficulty(ref: ref, stats: statsAggregated),
 
               LineChartTimeOverDifficulty(ref: ref, stats: statsAggregated),
-
             ],
           ),
         ));

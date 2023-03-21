@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/handlers/handler_task_loader.dart';
-import 'package:frontend/main.dart';
 import 'package:frontend/screens/screen_statistics.dart';
 import 'package:frontend/screens/screen_user_guide.dart';
 import 'package:frontend/widgets/widget_main_answers.dart';
@@ -11,12 +9,12 @@ import 'package:go_router/go_router.dart';
 
 import '../models/model_game_state.dart';
 import '../providers.dart';
-import '../router.dart';
 
 class ScreenMain extends ConsumerStatefulWidget {
   const ScreenMain({super.key});
 
   static String get routeName => 'main';
+
   static String get routeLocation => '/';
 
   final String title = "ALC Logic Quiz";
@@ -28,14 +26,16 @@ class ScreenMain extends ConsumerStatefulWidget {
 }
 
 class _ScreenMainState extends ConsumerState<ScreenMain> {
-
   @override
   Widget build(BuildContext context) {
     GameState gameState = ref.watch(gameStateProvider);
 
-    IconData iconDataDarkmode = gameState.darkMode ? Icons.nights_stay : Icons.wb_sunny;
+    IconData iconDataDarkmode =
+        gameState.darkMode ? Icons.nights_stay : Icons.wb_sunny;
 
-    IconData iconDataUsermanagement = /*FirebaseAuth.instance.currentUser != null ? Icons.account_box_outlined :*/ Icons.login;
+    IconData
+        iconDataUsermanagement = /*FirebaseAuth.instance.currentUser != null ? Icons.account_box_outlined :*/ Icons
+            .login;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -46,10 +46,12 @@ class _ScreenMainState extends ConsumerState<ScreenMain> {
           IconButton(
               onPressed: onPressedHelp, icon: const Icon(Icons.help_outline)),
           IconButton(
-              onPressed: onPressedUsermanagement, icon: Icon(iconDataUsermanagement)),
+              onPressed: onPressedUsermanagement,
+              icon: Icon(iconDataUsermanagement)),
           IconButton(
-            // nights_stay is name of other icon
-              onPressed: onPressedDarkmode, icon: Icon(iconDataDarkmode))
+              // nights_stay is name of other icon
+              onPressed: onPressedDarkmode,
+              icon: Icon(iconDataDarkmode))
         ],
       ),
       body: Column(
@@ -59,7 +61,6 @@ class _ScreenMainState extends ConsumerState<ScreenMain> {
           WidgetMainTimer(ref: ref),
           WidgetMainTask(ref: ref),
           WidgetMainAnswers(ref: ref),
-
         ],
       ),
     );
@@ -78,7 +79,7 @@ class _ScreenMainState extends ConsumerState<ScreenMain> {
   }
 
   void onPressedUsermanagement() {
-      context.go("/profile");
+    context.go("/profile");
   }
 
   void onPressedDarkmode() {

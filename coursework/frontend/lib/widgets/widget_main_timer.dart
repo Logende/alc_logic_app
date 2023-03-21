@@ -28,7 +28,8 @@ class WidgetMainTimerState extends ConsumerState<WidgetMainTimer> {
           color: Theme.of(context).textTheme.headline2!.color,
           size: 60,
         ),
-        Text(" ${formatTimeTimer(timerValue)}", style: Theme.of(context).textTheme.headline2)
+        Text(" ${formatTimeTimer(timerValue)}",
+            style: Theme.of(context).textTheme.headline2)
       ],
     );
   }

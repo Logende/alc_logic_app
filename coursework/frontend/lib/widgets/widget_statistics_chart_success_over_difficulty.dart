@@ -8,7 +8,8 @@ import 'package:frontend/providers.dart';
 
 // copied and modified from https://github.com/imaNNeoFighT/fl_chart/blob/master/example/lib/bar_chart/samples/bar_chart_sample2.dart
 class BarChartSuccessOverDifficulty extends ConsumerStatefulWidget {
-  const BarChartSuccessOverDifficulty({super.key, required this.ref, required this.stats});
+  const BarChartSuccessOverDifficulty(
+      {super.key, required this.ref, required this.stats});
 
   final WidgetRef ref;
   final UserStatisticsAggregated stats;
@@ -20,8 +21,6 @@ class BarChartSuccessOverDifficulty extends ConsumerStatefulWidget {
 
 class BarChartSuccessOverDifficultyState
     extends ConsumerState<BarChartSuccessOverDifficulty> {
-
-
   final double width = 7;
 
   late List<BarChartGroupData> rawBarGroups;
@@ -33,13 +32,14 @@ class BarChartSuccessOverDifficultyState
   @override
   Widget build(BuildContext context) {
     var stats = widget.stats;
-    final items = List.of(stats.difficulties.map((e) =>
-        makeGroupData(e, stats.successes[e]!.toDouble(), stats.failures[e]!.toDouble())));
+    final items = List.of(stats.difficulties.map((e) => makeGroupData(
+        e, stats.successes[e]!.toDouble(), stats.failures[e]!.toDouble())));
 
     rawBarGroups = items;
     showingBarGroups = rawBarGroups;
 
-    maxValue = max(stats.attempts.values.reduce(max), stats.failures.values.reduce(max));
+    maxValue = max(
+        stats.attempts.values.reduce(max), stats.failures.values.reduce(max));
 
     return AspectRatio(
       aspectRatio: 1,
@@ -133,10 +133,8 @@ class BarChartSuccessOverDifficultyState
     var difficulties = List<int>.generate(maxDifficulty + 1, (i) => i);
     final titles = List.of(difficulties.map((e) => e.toString()));
 
-    final Widget text = Text(
-      titles[value.toInt()],
-      style: Theme.of(context).textTheme.caption
-    );
+    final Widget text =
+        Text(titles[value.toInt()], style: Theme.of(context).textTheme.caption);
 
     return SideTitleWidget(
       axisSide: meta.axisSide,

@@ -1,4 +1,4 @@
- import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/handlers/handler_data_persistence.dart';
 import 'package:frontend/models/model_game_state.dart';
@@ -7,10 +7,7 @@ import 'model_tasks.dart';
 
 TaskStatistics createInitialTaskStatistics(Task task) {
   return TaskStatistics(
-      attempts: 0,
-      successes: 0,
-      totalTimeNeeded: 0.0,
-      task: task);
+      attempts: 0, successes: 0, totalTimeNeeded: 0.0, task: task);
 }
 
 UserStatistics createInitialUserStatistics(bool loaded) {
@@ -93,7 +90,8 @@ class UserStatistics {
       tasksStatistics[taskId] = tasksStatistics[taskId]!._addAttempt(gameState);
     } else {
       tasksStatistics[taskId] =
-          createInitialTaskStatistics(gameState.currentTask)._addAttempt(gameState);
+          createInitialTaskStatistics(gameState.currentTask)
+              ._addAttempt(gameState);
     }
     return UserStatistics(tasksStatistics: tasksStatistics, loaded: loaded);
   }

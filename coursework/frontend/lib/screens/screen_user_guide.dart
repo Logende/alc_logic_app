@@ -1,26 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/handlers/handler_task_loader.dart';
-import 'package:frontend/handlers/handlers_time_formatter.dart';
-import 'package:frontend/models/model_user_statistics_aggregated.dart';
-import 'package:frontend/router.dart';
 import 'package:frontend/screens/screen_main.dart';
-import 'package:frontend/widgets/widget_main_answers.dart';
-import 'package:frontend/widgets/widget_main_task.dart';
-import 'package:frontend/widgets/widget_main_timer.dart';
-import 'package:frontend/widgets/widget_statistics_chart_success_over_difficulty.dart';
-import 'package:frontend/widgets/widget_statistics_chart_time_over_difficulty.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/date_symbol_data_file.dart';
 
-import '../models/model_game_state.dart';
 import '../providers.dart';
 
 class ScreenUserGuide extends ConsumerStatefulWidget {
   const ScreenUserGuide({super.key});
 
   static String get routeName => 'user_guide';
+
   static String get routeLocation => '/user_guide';
 
   final String title = "User Guide";
@@ -34,9 +24,6 @@ class ScreenUserGuide extends ConsumerStatefulWidget {
 class _ScreenUserGuideState extends ConsumerState<ScreenUserGuide> {
   @override
   Widget build(BuildContext context) {
-    var stats = ref.watch(userStatisticsProvider);
-    var statsAggregated = aggregateUserStatistics(stats);
-
     return Scaffold(
         appBar: AppBar(
           title: Text(widget.title),

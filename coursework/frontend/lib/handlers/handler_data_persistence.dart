@@ -1,8 +1,6 @@
-
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:frontend/handlers/handler_statistics_sender.dart';
 import 'package:frontend/handlers/handler_task_loader.dart';
 import 'package:frontend/models/model_user_statistics.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,8 +13,6 @@ Future<void> persistUserStatistics(UserStatistics userStatistics) async {
   prefs.setString("user_statistics", stateString);
   debugPrint("persist user_statistics");
 }
-
-
 
 Future<UserStatistics> readUserStatistics() async {
   debugPrint("read user_statistics");
@@ -32,7 +28,6 @@ Future<UserStatistics> readUserStatistics() async {
   }
   return userStatistics;
 }
-
 
 Future<void> persistTasks(List<Task> tasks) async {
   final prefs = await SharedPreferences.getInstance();

@@ -5,7 +5,8 @@ import 'package:frontend/models/model_user_statistics.dart';
 
 import '../models/model_tasks.dart';
 
-Task selectTask(GameState currentState, TaskList availableTasks, UserStatistics stats) {
+Task selectTask(
+    GameState currentState, TaskList availableTasks, UserStatistics stats) {
   // expect that tasklist is in the order in which the tasks should be completed
   List<Task> options = [];
 
