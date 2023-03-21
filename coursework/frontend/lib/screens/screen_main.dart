@@ -33,9 +33,6 @@ class _ScreenMainState extends ConsumerState<ScreenMain> {
     IconData iconDataDarkmode =
         gameState.darkMode ? Icons.nights_stay : Icons.wb_sunny;
 
-    IconData
-        iconDataUsermanagement = /*FirebaseAuth.instance.currentUser != null ? Icons.account_box_outlined :*/ Icons
-            .login;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -45,9 +42,6 @@ class _ScreenMainState extends ConsumerState<ScreenMain> {
               icon: const Icon(Icons.bar_chart)),
           IconButton(
               onPressed: onPressedHelp, icon: const Icon(Icons.help_outline)),
-          IconButton(
-              onPressed: onPressedUsermanagement,
-              icon: Icon(iconDataUsermanagement)),
           IconButton(
               // nights_stay is name of other icon
               onPressed: onPressedDarkmode,
@@ -76,10 +70,6 @@ class _ScreenMainState extends ConsumerState<ScreenMain> {
     context.go(ScreenUserGuide.routeLocation);
     var timerNotifier = ref.watch(timerProvider.notifier);
     timerNotifier.stopTime();
-  }
-
-  void onPressedUsermanagement() {
-    context.go("/profile");
   }
 
   void onPressedDarkmode() {

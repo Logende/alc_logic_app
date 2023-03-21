@@ -17,11 +17,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: ScreenMain.routeLocation,
         name: ScreenMain.routeName,
         builder: (context, state) {
-          // if (FirebaseAuth.instance.currentUser != null) {
           return const ScreenMain();
-          //} else {
-          // return createSignInScreen();
-          //}
         },
       ),
       GoRoute(

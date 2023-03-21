@@ -68,7 +68,7 @@ class TaskListNotifier extends StateNotifier<TaskList> {
 
     // try to fetch tasks from backend and if it succeeds, update tasks with them
     fetchTasksFromBackend().then((value) => updateTasks(value, true));
-    print("fetched taks from backend, now having ${state.tasks.length}");
+    debugPrint("fetched taks from backend, now having ${state.tasks.length}");
   }
 
   bool isLoaded() {

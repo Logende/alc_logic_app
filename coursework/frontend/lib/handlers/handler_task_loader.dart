@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import "package:yaml/yaml.dart";
@@ -27,7 +28,7 @@ List<Task> loadTasksFromYaml(Iterable taskDefinitionList) {
 }
 
 Future<List<Task>> fetchTasksFromBackend() async {
-  print("fetch task from backend");
+  debugPrint("fetch task from backend");
 
   var uri = 'http://10.0.2.2:5001/tasks';
 
@@ -35,7 +36,7 @@ Future<List<Task>> fetchTasksFromBackend() async {
 
   var body = utf8.decode(response.bodyBytes);
 
-  print("response status code is ${response.statusCode} with text $body");
+  debugPrint("response status code is ${response.statusCode} with text $body");
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,

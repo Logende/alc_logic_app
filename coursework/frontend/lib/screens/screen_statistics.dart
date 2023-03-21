@@ -49,14 +49,10 @@ class _ScreenStatisticsState extends ConsumerState<ScreenStatistics> {
               Text(
                   "Average Time/Task: ${formatTimePlaytime(statsAggregated.averageTimePerTask)}",
                   style: Theme.of(context).textTheme.headlineSmall),
-
               Text(
                   "Most difficult task: '${statsAggregated.mostDifficultTask.concept}'",
                   style: Theme.of(context).textTheme.headlineSmall),
-              //Text(ref.watch(userStatisticsProvider).toMap().toString()),
-
               BarChartSuccessOverDifficulty(ref: ref, stats: statsAggregated),
-
               LineChartTimeOverDifficulty(ref: ref, stats: statsAggregated),
             ],
           ),

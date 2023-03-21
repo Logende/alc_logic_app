@@ -13,11 +13,11 @@ func main() {
 	// number of roles to use for task generation
 	nRoles := 2
 
-	// use algorithm generateConceptsA to generate complex concepts based on the given input.
+	// use algorithm generateConcepts to generate complex concepts based on the given input.
 	// the algorithm will take all concepts it currently has and apply all the different operators (negation, union,
 	// intersection, quantifiers) on them. For binary operators, it will combine two of the existing concepts.
 	// This is repeated nLevels times. With every iteration, the resulting concepts get more complex and longer.
-	concepts := generateConceptsA(nBasicConcepts, nRoles, 4)
+	concepts := generateConcepts(nBasicConcepts, nRoles, 4)
 	fmt.Println("concept count: ", len(concepts))
 
 	// group concepts by complexity (i.e. operator count)
@@ -65,7 +65,7 @@ func pickRandomTasks(options []interface{}, countSatisfiable int, countNonSatisf
 	maxCountWithTopBottom int) []Task {
 	var result []Task
 
-	// shuffle options ti get random order
+	// shuffle options to get random order
 	for i := range options {
 		j := rand.Intn(i + 1)
 		options[i], options[j] = options[j], options[i]

@@ -40,14 +40,6 @@ func main() {
 	}
 	tasks := taskDefinitions.ReadTasks()
 
-	exampleUser := pkg.UserProfile{
-		Name:            "someName",
-		PasswordHash:    "werwer",
-		TasksStatistics: map[string]pkg.TaskStatistics{},
-	}
-
-	fmt.Printf("%+v\n", exampleUser)
-
 	// create server and already connect with Mongodb and if there are existing tasks, take them over
 	// otherwise use default tasks and write them to DB
 	server := &pkg.UserServer{StoreUsers: pkg.NewMongoUserStore(client), StoreTasks: pkg.NewMongoTaskStore(tasks, client)}

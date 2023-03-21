@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func generateConceptsA(nBasicConcepts int, nRoles int, nLevels int) []interface{} {
+func generateConcepts(nBasicConcepts int, nRoles int, nLevels int) []interface{} {
 
 	// generate base concepts A, B, Concept, ..., TOP, BOTTOM
 	var concepts []interface{}
@@ -19,13 +19,13 @@ func generateConceptsA(nBasicConcepts int, nRoles int, nLevels int) []interface{
 
 	level := concepts
 	for i := 1; i < nLevels; i++ {
-		level = combineConceptsA(level, roles)
+		level = combineConcepts(level, roles)
 		fmt.Println("Finished lvl with ", len(level), " combinations")
 	}
 	return level
 }
 
-func combineConceptsA(previousLevel []interface{}, roles []Role) []interface{} {
+func combineConcepts(previousLevel []interface{}, roles []Role) []interface{} {
 	var level []interface{}
 
 	for i := 0; i < len(previousLevel); i++ {

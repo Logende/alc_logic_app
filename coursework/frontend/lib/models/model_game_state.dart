@@ -5,7 +5,6 @@ import 'package:frontend/models/model_tasks.dart';
 import 'package:frontend/providers.dart';
 
 GameState createInitialGameState(Ref ref) {
-  // TODO: Make task user-dependent
   Task currentTask = ref.watch(tasksProvider).tasks.first;
   return GameState(
       currentTask: currentTask,

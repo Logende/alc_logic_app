@@ -6,12 +6,6 @@ import 'package:frontend/router.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  //FirebaseUIAuth.configureProviders([
-  //  EmailAuthProvider(),
-  //]);
-
   runApp(const ProviderScope(
     child: MyApp(),
   ));
@@ -41,16 +35,18 @@ class MyApp extends ConsumerWidget {
   // light Theme
   ThemeData createLightTheme(BuildContext context) {
     return ThemeData.light().copyWith(
-        primaryColor: Color(0xFFffbd45),
+        primaryColor: const Color(0xFFffbd45),
         colorScheme: ColorScheme.fromSwatch().copyWith(
-            primary: Color(0xFFffbd45), secondary: Color(0xFFb2fab4)));
+            primary: const Color(0xFFffbd45),
+            secondary: const Color(0xFFb2fab4)));
   }
 
 // dark Theme
   ThemeData createDarkTheme(BuildContext context) {
     return ThemeData.dark().copyWith(
-        primaryColor: Color(0xFFc25e00),
+        primaryColor: const Color(0xFFc25e00),
         colorScheme: ColorScheme.fromSwatch().copyWith(
-            primary: Color(0xFFc25e00), secondary: Color(0xFF519657)));
+            primary: const Color(0xFFc25e00),
+            secondary: const Color(0xFF519657)));
   }
 }
